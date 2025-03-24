@@ -11,7 +11,8 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.0"
+version = "0.15.1"
+build = "alpha"
 count_lines = 0
 
 class Colours:
@@ -93,9 +94,9 @@ def update(script_dir):
             script_path = os.path.join(script_dir, "main.py")
             with open(script_path, 'w') as file:
                 file.write(latest_script)
-            line_count = count_lines(script_path)
+                count_lines = count_lines(script_path)
             for i in range(random.randint(35, 400)):
-                print(f"Updated line {random.randint(1, line_count)} of {line_count}...")
+                print(f"Updated line {random.randint(1, count_lines)} of {count_lines}...")
                 time.sleep(0.01)
             print("Update successful. Please restart the script.")
             data_write("reboot_needed", True, script_dir)
@@ -618,6 +619,7 @@ def main():
         print(f"{Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET} Command Line Interface v{version}")
         load_dotenv(dotenv_path=os.path.join(script_dir, 'key.env'))
         print(check_updates(version, False))
+        print("Build: " + build)
         print("""Type 'help' help finding commands, 'exit' to exit, or a command to execute.
               """)
         command_name = input("$ " + os.getcwd() + " > ")
