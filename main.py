@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.5"
+version = "0.15.6"
 build = "alpha"
 count_lines = 0
 
@@ -142,6 +142,8 @@ def update_changelog(script_dir):
     changelog_path = os.path.join(script_dir, "changelog.txt")
     try:
         with open(changelog_path, 'r', encoding='utf-8') as file:
+            print(f"Changelog for ALF-DOS v{version}-{build}:")
+            print("")
             print(file.read())
     except FileNotFoundError:
         print("changelog.txt file not found.")
