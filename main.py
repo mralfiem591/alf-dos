@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
-version = "0.3.1"
+version = "0.3.2"
 
 class Colours:
     RESET = "\033[0m"
@@ -388,6 +388,7 @@ def gitpakget(script_dir):
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
+
     try:
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
@@ -397,11 +398,25 @@ def gitpakget(script_dir):
             pak_path = os.path.join(paks_dir, pak_name)
             with open(pak_path, 'w') as file:
                 file.write(pak_content)
-            print(f"Downloaded {pak_name} to the Paks folder. Please remember to run 'cmdpak-refresh' to enable the new PAK and 'cmdpak-dep' to install dependencies.")
+            cmdpak_dep(script_dir)
+            cmdpak_refresh(script_dir)
+            print(f"Downloaded {pak_name} to the Paks folder.")
         else:
             print(f"Failed to download {pak_name}. Status code: {response.status_code}")
     except Exception as e:
         print(f"An error occurred during the download: {e}")
+
+def pak_rm(script_dir):
+    pak_name = input("Enter the name of the PAK to remove (without .json extension): ").strip()
+    if not pak_name.endswith("PAK.json"):
+        pak_name += "PAK.json"
+    paks_dir = os.path.join(script_dir, "Paks")
+    pak_path = os.path.join(paks_dir, pak_name)
+    if os.path.exists(pak_path):
+        os.remove(pak_path)
+        print(f"Removed {pak_name} from the Paks folder.")
+    else:
+        print(f"PAK file {pak_name} not found in the Paks folder.")
 
 def cmdpak_grab(script_dir):
     current_dir = os.getcwd()
@@ -607,6 +622,10 @@ def main():
             continue
         elif command_name.lower() == 'readme':
             read_readme(script_dir)
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'pak-rm':
+            pak_rm(script_dir)
             input("Press Enter to continue...")
             continue
         elif command_name.lower() == 'settings':
