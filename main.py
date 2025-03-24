@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
-version = "10"
+version = "12"
 
 class Colours:
     RESET = "\033[0m"
@@ -63,7 +63,7 @@ def check_updates(version, system):
             latest_version = response.text.strip()
             if latest_version != version:
                 if system == False:
-                    return f"ALF-DOS isn't the newest version. {latest_version} is available. Run 'update' to update."
+                    return f"ALF-DOS isn't the newest version. v{latest_version} is available. Run 'update' to update."
                 else:
                     return True
             else:
