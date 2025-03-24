@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.2"
+version = "0.15.4"
 build = "alpha"
 count_lines = 0
 
@@ -83,25 +83,37 @@ def check_updates(current_version, system):
 
 def update(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
-    url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/main.py"
+    repo_url = "https://api.github.com/repos/mralfiem591/alf-dos/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
+    exclude_files = ["key.env", "config.json"]
+    exclude_dirs = ["Commands", "Paks"]
+
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(repo_url, headers=headers)
         if response.status_code == 200:
-            latest_script = response.text
-            script_path = os.path.join(script_dir, "main.py")
-            with open(script_path, 'w') as file:
-                file.write(latest_script)
-                count_lines = count_lines(script_path)
-            for i in range(random.randint(35, 250)):
-                print(f"Updated line {random.randint(1, count_lines)} of {count_lines}...")
-                time.sleep(0.01)
+            files = response.json()
+            for file in files:
+                file_path = file['path']
+                if file_path in exclude_files or any(file_path.startswith(dir) for dir in exclude_dirs):
+                    continue
+
+                file_url = file['download_url']
+                if file_url:
+                    file_response = requests.get(file_url, headers=headers)
+                    if file_response.status_code == 200:
+                        local_path = os.path.join(script_dir, file_path)
+                        os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                        with open(local_path, 'w') as local_file:
+                            local_file.write(file_response.text)
+                        print(f"Updated {file_path}")
+                    else:
+                        print(f"Failed to download {file_path}. Status code: {file_response.status_code}")
             print("Update successful. Please restart the script.")
             data_write("reboot_needed", True, script_dir)
         else:
-            print("Failed to download the latest version.")
+            print("Failed to list repository contents.")
     except Exception as e:
         print(f"An error occurred during the update: {e}")
 
