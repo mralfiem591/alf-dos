@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.4"
+version = "0.15.5"
 build = "alpha"
 count_lines = 0
 
@@ -110,6 +110,16 @@ def update(script_dir):
                         print(f"Updated {file_path}")
                     else:
                         print(f"Failed to download {file_path}. Status code: {file_response.status_code}")
+            # Fetch the latest changelog.txt
+            changelog_url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/changelog.txt"
+            changelog_response = requests.get(changelog_url, headers=headers)
+            if changelog_response.status_code == 200:
+                changelog_path = os.path.join(script_dir, "changelog.txt")
+                with open(changelog_path, 'w') as changelog_file:
+                    changelog_file.write(changelog_response.text)
+                print("Updated changelog.txt")
+            else:
+                print("Failed to download changelog.txt. Status code:", changelog_response.status_code)
             print("Update successful. Please restart the script.")
             data_write("reboot_needed", True, script_dir)
         else:
@@ -126,6 +136,14 @@ def clear_screen():
         os.system('cls')
     else:  # For Unix-based systems
         os.system('clear')
+
+def update_changelog(script_dir):
+    changelog_path = os.path.join(script_dir, "changelog.txt")
+    try:
+        with open(changelog_path, 'r') as file:
+            print(file.read())
+    except FileNotFoundError:
+        print("changelog.txt file not found.")
 
 def load_command(command_name, script_dir):
     # Check for command in the current directory
@@ -761,6 +779,10 @@ def main():
             else:
                 print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'update-changelog':
+            update_changelog(script_dir)
+            input("Press Enter to continue...")
             continue
         elif command_name.lower() == 'gitpakget':
             if checkpaks(script_dir):
