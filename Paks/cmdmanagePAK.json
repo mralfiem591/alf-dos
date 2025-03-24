@@ -1,0 +1,26 @@
+{
+  "requirements": "Python 3.6 or higher",
+  "dependencies": ["os", "json", "shutil"],
+  "commands": [
+    {
+      "name": "cmd-del",
+      "description": "Deletes a command.",
+      "code": "import os\ncommand_name = input('Enter the name of the command to delete: ').strip()\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ncommand_file_path = os.path.join(script_dir, 'Commands', f'{command_name}.json')\nif os.path.exists(command_file_path):\n    os.remove(command_file_path)\n    print(f'Command {command_name} deleted.')\nelse:\n    print(f'Command {command_name} not found.')"
+    },
+    {
+      "name": "cmd-list",
+      "description": "Lists all commands.",
+      "code": "import os\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ncommands_dir = os.path.join(script_dir, 'Commands')\ncommands = [f[:-5] for f in os.listdir(commands_dir) if f.endswith('.json')]\nprint('Commands:')\nprint('\\n'.join(commands))"
+    },
+    {
+      "name": "cmd-check",
+      "description": "Checks if a command exists.",
+      "code": "import os\ncommand_name = input('Enter the name of the command to check: ').strip()\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ncommand_file_path = os.path.join(script_dir, 'Commands', f'{command_name}.json')\nif os.path.exists(command_file_path):\n    print(f'Command {command_name} exists.')\nelse:\n    print(f'Command {command_name} does not exist.')"
+    },
+    {
+      "name": "cmd-clear",
+      "description": "Clears the entire Commands directory.",
+      "code": "import os\nimport shutil\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ncommands_dir = os.path.join(script_dir, 'Commands')\nconfirmation = input('Are you sure you want to clear the entire Commands directory? Type \"yes\" to confirm: ').strip().lower()\nif confirmation == 'yes':\n    for filename in os.listdir(commands_dir):\n        file_path = os.path.join(commands_dir, filename)\n        try:\n            if os.path.isfile(file_path) or os.path.islink(file_path):\n                os.unlink(file_path)\n            elif os.path.isdir(file_path):\n                shutil.rmtree(file_path)\n        except Exception as e:\n            print(f'Failed to delete {file_path}. Reason: {e}')\n    print('Commands directory cleared.')\nelse:\n    print('Operation cancelled.')"
+    }
+  ]
+}

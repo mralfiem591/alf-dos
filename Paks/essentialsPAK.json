@@ -1,0 +1,91 @@
+{
+  "requirements": "Python 3.6 or higher",
+  "dependencies": ["os", "json", "datetime", "shutil", "platform"],
+  "commands": [
+    {
+      "name": "hello",
+      "description": "Prints Hello, World!",
+      "code": "print('Hello, World!')"
+    },
+    {
+      "name": "goodbye",
+      "description": "Prints Goodbye, World!",
+      "code": "print('Goodbye, World!')"
+    },
+    {
+      "name": "date",
+      "description": "Prints the current date and time.",
+      "code": "import datetime\nprint(datetime.datetime.now())"
+    },
+    {
+      "name": "listdir",
+      "description": "Lists all files and directories in the current directory.",
+      "code": "import os\nprint('\\n'.join(os.listdir(os.getcwd())))"
+    },
+    {
+      "name": "makedir",
+      "description": "Creates a new directory.",
+      "code": "import os\ndir_name = input('Enter directory name: ')\nos.makedirs(dir_name, exist_ok=True)\nprint(f'Directory {dir_name} created.')"
+    },
+    {
+      "name": "removedir",
+      "description": "Removes an existing directory.",
+      "code": "import os\nimport shutil\ndir_name = input('Enter directory name: ')\nif os.path.exists(dir_name) and os.path.isdir(dir_name):\n    shutil.rmtree(dir_name)\n    print(f'Directory {dir_name} removed.')\nelse:\n    print(f'Directory {dir_name} not found.')"
+    },
+    {
+      "name": "readfile",
+      "description": "Reads and prints the contents of a file.",
+      "code": "file_name = input('Enter file name: ')\nwith open(file_name, 'r') as file:\n    print(file.read())"
+    },
+    {
+      "name": "writefile",
+      "description": "Writes a message to a file.",
+      "code": "file_name = input('Enter file name: ')\nmessage = input('Enter message: ')\nwith open(file_name, 'w') as file:\n    file.write(message)\nprint(f'Message written to {file_name}.')"
+    },
+    {
+      "name": "echo",
+      "description": "Echoes the input text back to the console.",
+      "code": "text = input('Enter text to echo: ')\nprint(text)"
+    },
+    {
+      "name": "calc",
+      "description": "Performs a simple arithmetic calculation.",
+      "code": "expression = input('Enter arithmetic expression (e.g., 2 + 2): ')\nresult = eval(expression)\nprint(f'Result: {result}')"
+    },
+    {
+      "name": "rename",
+      "description": "Renames a file.",
+      "code": "import os\nold_name = input('Enter current file name: ')\nnew_name = input('Enter new file name: ')\nos.rename(old_name, new_name)\nprint(f'Renamed {old_name} to {new_name}')"
+    },
+    {
+      "name": "deletefile",
+      "description": "Deletes a file.",
+      "code": "import os\nfile_name = input('Enter file name to delete: ')\nos.remove(file_name)\nprint(f'Deleted file {file_name}')"
+    },
+    {
+      "name": "copyfile",
+      "description": "Copies a file.",
+      "code": "import shutil\nsource = input('Enter source file name: ')\ndestination = input('Enter destination file name: ')\nshutil.copy(source, destination)\nprint(f'Copied {source} to {destination}')"
+    },
+    {
+      "name": "movefile",
+      "description": "Moves a file.",
+      "code": "import shutil\nsource = input('Enter source file name: ')\ndestination = input('Enter destination file name: ')\nshutil.move(source, destination)\nprint(f'Moved {source} to {destination}')"
+    },
+    {
+      "name": "systeminfo",
+      "description": "Prints basic system information.",
+      "code": "import platform\nprint(f'System: {platform.system()}')\nprint(f'Node Name: {platform.node()}')\nprint(f'Release: {platform.release()}')\nprint(f'Version: {platform.version()}')\nprint(f'Machine: {platform.machine()}')\nprint(f'Processor: {platform.processor()}')"
+    },
+    {
+      "name": "desc",
+      "description": "Prints the name and description of a specified command.",
+      "code": "import os, json\ncommand_name = input('Enter command name: ')\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ncommand_file_path = os.path.join(script_dir, 'Commands', f'{command_name}.json')\nif os.path.exists(command_file_path):\n    with open(command_file_path, 'r') as file:\n        command = json.load(file)\n        print(f\"Command Name: {command['name']}\")\n        print(f\"Description: {command['description']}\")\nelse:\n    print(f\"Command '{command_name}' not found.\")"
+    },
+    {
+      "name": "template",
+      "description": "Creates a template text file in the Commands directory.",
+      "code": "import os\nscript_dir = os.path.dirname(os.path.abspath(__file__))\ntemplate_file_path = os.path.join(script_dir, 'Commands', 'template.txt')\ntemplate_content = '''{\n  \"name\": \"{script name}\",\n  \"description\": \"{Script description}\",\n  \"code\": \"{line 1}\n  {line 2}\n  {line 3}\"\n}'''\nwith open(template_file_path, 'w') as template_file:\n    template_file.write(template_content)\nprint(f'Template file created at {template_file_path}')"
+    }
+  ]
+}

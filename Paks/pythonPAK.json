@@ -1,0 +1,21 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": [],
+    "commands": [
+      {
+        "name": "python-install",
+        "description": "Asks for a repository, then runs the command in shell: pip install {repo entered}.",
+        "code": "import subprocess\nrepo = input('Enter the repository to install: ')\nsubprocess.run(['pip', 'install', repo])"
+      },
+      {
+        "name": "python-line",
+        "description": "Runs a line of Python code.",
+        "code": "code_line = input('Enter the Python code to run: ')\nexec(code_line)"
+      },
+      {
+        "name": "python-run",
+        "description": "Runs a Python script.",
+        "code": "import subprocess\nscript_path = input('Enter the path to the Python script: ')\nsubprocess.run(['python', script_path])"
+      }
+    ]
+  }

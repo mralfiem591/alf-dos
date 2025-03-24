@@ -1,0 +1,11 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os"],
+    "commands": [
+        {
+            "name": "fileexplorer",
+            "description": "Explore files and directories",
+            "code": "import os\n\n# Function to clear the screen\ndef clear_screen():\n    if os.name == 'nt':\n        os.system('cls')\n    else:\n        os.system('clear')\n\ncurrent_dir = os.getcwd()\n\nwhile True:\n    clear_screen()\n    print(f'Current Directory: {current_dir}')\n    for item in os.listdir(current_dir):\n        print(item)\n    command = input('Enter a path, folder, file, or \"back\" to go up a directory, or \"exit\" to quit: ').strip()\n    if command.lower() == 'exit':\n        break\n    elif command.lower() == 'back':\n        current_dir = os.path.dirname(current_dir)\n    else:\n        new_path = os.path.join(current_dir, command)\n        if os.path.isdir(new_path):\n            current_dir = new_path\n        elif os.path.isfile(new_path):\n            with open(new_path, 'r') as file:\n                print(file.read())\n            input('Press Enter to continue...')\n        else:\n            print(f'Invalid path: {new_path}')\n            input('Press Enter to continue...')"
+        }
+    ]
+}

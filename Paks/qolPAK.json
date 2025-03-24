@@ -1,0 +1,71 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os", "json", "datetime", "shutil", "platform", "subprocess", "psutil", "requests", "zipfile", "hashlib", "base64", "xml.dom.minidom", "csv", "socket", "re"],
+    "commands": [
+      {
+        "name": "todotxt",
+        "description": "Creates a simple to-do list text file.",
+        "code": "filename = 'todo.txt'\nwith open(filename, 'a') as file:\n    while True:\n        task = input('Enter a task (or type \"done\" to finish): ')\n        if task.lower() == 'done':\n            break\n        file.write(task + '\\n')\nprint(f'To-do list saved to {filename}')"
+      },
+      {
+        "name": "remindme",
+        "description": "Sets a reminder.",
+        "code": "import time\nreminder = input('Enter reminder: ')\ndelay = int(input('Enter delay in seconds: '))\ntime.sleep(delay)\nprint(f'Reminder: {reminder}')"
+      },
+      {
+        "name": "weather",
+        "description": "Fetches weather information for a specified city.",
+        "code": "import requests\ncity = input('Enter city: ')\napi_key = 'your_api_key_here'\nurl = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'\nresponse = requests.get(url)\ndata = response.json()\nif data['cod'] == 200:\n    main = data['main']\n    weather = data['weather'][0]\n    print(f\"City: {data['name']}\")\n    print(f\"Temperature: {main['temp']}K\")\n    print(f\"Weather: {weather['description']}\")\nelse:\n    print(f\"City {city} not found.\")"
+      },
+      {
+        "name": "currencyconvert",
+        "description": "Converts currency from one unit to another.",
+        "code": "import requests\namount = float(input('Enter amount: '))\nfrom_currency = input('Enter from currency (e.g., USD): ').upper()\nto_currency = input('Enter to currency (e.g., EUR): ').upper()\napi_key = 'your_api_key_here'\nurl = f'https://api.exchangerate-api.com/v4/latest/{from_currency}'\nresponse = requests.get(url)\ndata = response.json()\nrate = data['rates'].get(to_currency)\nif rate:\n    converted_amount = amount * rate\n    print(f'{amount} {from_currency} = {converted_amount} {to_currency}')\nelse:\n    print(f'Conversion rate for {to_currency} not found.')"
+      },
+      {
+        "name": "shortenurl",
+        "description": "Shortens a URL using the TinyURL API.",
+        "code": "import requests\nurl = input('Enter URL to shorten: ')\napi_url = f'http://tinyurl.com/api-create.php?url={url}'\nresponse = requests.get(api_url)\nprint(f'Shortened URL: {response.text}')"
+      },
+      {
+        "name": "expandurl",
+        "description": "Expands a shortened URL using the TinyURL API.",
+        "code": "import requests\nshort_url = input('Enter shortened URL: ')\napi_url = f'http://tinyurl.com/api-create.php?url={short_url}'\nresponse = requests.get(api_url)\nprint(f'Expanded URL: {response.text}')"
+      },
+      {
+        "name": "randomquote",
+        "description": "Fetches a random quote from an API.",
+        "code": "import requests\nurl = 'https://api.quotable.io/random'\nresponse = requests.get(url)\ndata = response.json()\nprint(f'\"{data['content']}\" - {data['author']}')"
+      },
+      {
+        "name": "joke",
+        "description": "Fetches a random joke from an API.",
+        "code": "import requests\nurl = 'https://official-joke-api.appspot.com/random_joke'\nresponse = requests.get(url)\ndata = response.json()\nprint(f'{data['setup']} - {data['punchline']}')"
+      },
+      {
+        "name": "timer",
+        "description": "Sets a timer for a specified number of seconds.",
+        "code": "import time\nseconds = int(input('Enter number of seconds: '))\nprint(f'Timer set for {seconds} seconds.')\ntime.sleep(seconds)\nprint('Time\\'s up!')"
+      },
+      {
+        "name": "stopwatch",
+        "description": "Starts a stopwatch.",
+        "code": "import time\ninput('Press Enter to start the stopwatch...')\nstart_time = time.time()\ninput('Press Enter to stop the stopwatch...')\nelapsed_time = time.time() - start_time\nprint(f'Elapsed time: {elapsed_time} seconds')"
+      },
+      {
+        "name": "translate",
+        "description": "Translates text from one language to another using the Google Translate API.",
+        "code": "import requests\ntext = input('Enter text to translate: ')\nsource_lang = input('Enter source language (e.g., en): ')\ntarget_lang = input('Enter target language (e.g., es): ')\nurl = f'https://translate.googleapis.com/translate_a/single?client=gtx&sl={source_lang}&tl={target_lang}&dt=t&q={text}'\nresponse = requests.get(url)\ntranslation = response.json()[0][0][0]\nprint(f'Translated text: {translation}')"
+      },
+      {
+        "name": "news",
+        "description": "Fetches the latest news headlines.",
+        "code": "import requests\napi_key = 'your_api_key_here'\nurl = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'\nresponse = requests.get(url)\ndata = response.json()\nfor article in data['articles']:\n    print(f\"{article['title']} - {article['source']['name']}\")"
+      },
+      {
+        "name": "define",
+        "description": "Fetches the definition of a word using the Merriam-Webster API.",
+        "code": "import requests\nword = input('Enter word to define: ')\napi_key = 'your_api_key_here'\nurl = f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={api_key}'\nresponse = requests.get(url)\ndata = response.json()\nif data:\n    print(f\"Definition of {word}: {data[0]['shortdef'][0]}\")\nelse:\n    print(f'No definition found for {word}.')"
+      }
+    ]
+  }

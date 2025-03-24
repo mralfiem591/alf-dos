@@ -1,0 +1,81 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os", "json", "shutil", "platform", "subprocess", "psutil", "requests", "zipfile", "hashlib", "base64", "xml.dom.minidom", "csv", "socket", "re"],
+    "commands": [
+      {
+        "name": "listfiles",
+        "description": "Lists all files in the current directory.",
+        "code": "import os\nfiles = [f for f in os.listdir(os.getcwd()) if os.path.isfile(f)]\nprint('\\n'.join(files))"
+      },
+      {
+        "name": "listdirs",
+        "description": "Lists all directories in the current directory.",
+        "code": "import os\ndirs = [d for d in os.listdir(os.getcwd()) if os.path.isdir(d)]\nprint('\\n'.join(dirs))"
+      },
+      {
+        "name": "fileinfo",
+        "description": "Prints information about a file.",
+        "code": "import os\nfilename = input('Enter file name: ')\nfile_info = os.stat(filename)\nprint(f'Size: {file_info.st_size} bytes')\nprint(f'Created: {time.ctime(file_info.st_ctime)}')\nprint(f'Modified: {time.ctime(file_info.st_mtime)}')"
+      },
+      {
+        "name": "searchfile",
+        "description": "Searches for a string in a file.",
+        "code": "filename = input('Enter file name: ')\nsearch_string = input('Enter string to search for: ')\nwith open(filename, 'r') as file:\n    for line in file:\n        if search_string in line:\n            print(line.strip())"
+      },
+      {
+        "name": "copydir",
+        "description": "Copies a directory.",
+        "code": "import shutil\nsource = input('Enter source directory: ')\ndestination = input('Enter destination directory: ')\nshutil.copytree(source, destination)\nprint(f'Copied {source} to {destination}')"
+      },
+      {
+        "name": "movedir",
+        "description": "Moves a directory.",
+        "code": "import shutil\nsource = input('Enter source directory: ')\ndestination = input('Enter destination directory: ')\nshutil.move(source, destination)\nprint(f'Moved {source} to {destination}')"
+      },
+      {
+        "name": "deletedir",
+        "description": "Deletes a directory.",
+        "code": "import shutil\ndir_name = input('Enter directory name to delete: ')\nshutil.rmtree(dir_name)\nprint(f'Deleted directory {dir_name}')"
+      },
+      {
+        "name": "appendfile",
+        "description": "Appends text to a file.",
+        "code": "filename = input('Enter file name: ')\ntext = input('Enter text to append: ')\nwith open(filename, 'a') as file:\n    file.write(text + '\\n')\nprint(f'Appended text to {filename}')"
+      },
+      {
+        "name": "readjson",
+        "description": "Reads and prints the contents of a JSON file.",
+        "code": "import json\nfilename = input('Enter JSON file name: ')\nwith open(filename, 'r') as file:\n    data = json.load(file)\nprint(json.dumps(data, indent=4))"
+      },
+      {
+        "name": "writejson",
+        "description": "Writes data to a JSON file.",
+        "code": "import json\nfilename = input('Enter JSON file name: ')\ndata = input('Enter JSON data: ')\nwith open(filename, 'w') as file:\n    json.dump(json.loads(data), file, indent=4)\nprint(f'Wrote data to {filename}')"
+      },
+      {
+        "name": "readxml",
+        "description": "Reads and prints the contents of an XML file.",
+        "code": "import xml.dom.minidom\nfilename = input('Enter XML file name: ')\nwith open(filename, 'r') as file:\n    data = file.read()\nxml = xml.dom.minidom.parseString(data)\nprint(xml.toprettyxml())"
+      },
+      {
+        "name": "writexml",
+        "description": "Writes data to an XML file.",
+        "code": "import xml.dom.minidom\nfilename = input('Enter XML file name: ')\ndata = input('Enter XML data: ')\nwith open(filename, 'w') as file:\n    file.write(data)\nprint(f'Wrote data to {filename}')"
+      },
+      {
+        "name": "readcsv",
+        "description": "Reads and prints the contents of a CSV file.",
+        "code": "import csv\nfilename = input('Enter CSV file name: ')\nwith open(filename, 'r') as file:\n    reader = csv.reader(file)\n    for row in reader:\n        print(', '.join(row))"
+      },
+      {
+        "name": "writecsv",
+        "description": "Writes data to a CSV file.",
+        "code": "import csv\nfilename = input('Enter CSV file name: ')\ndata = input('Enter CSV data (comma-separated): ')\nwith open(filename, 'w', newline='') as file:\n    writer = csv.writer(file)\n    writer.writerow(data.split(','))\nprint(f'Wrote data to {filename}')"
+      },
+      {
+        "name": "searchdir",
+        "description": "Searches for a file in a directory.",
+        "code": "import os\nsearch_string = input('Enter string to search for: ')\nfor root, dirs, files in os.walk(os.getcwd()):\n    for file in files:\n        if search_string in file:\n            print(os.path.join(root, file))"
+      }
+    ]
+  }

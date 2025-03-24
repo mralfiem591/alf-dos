@@ -1,0 +1,81 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os", "json", "datetime", "shutil", "platform", "subprocess", "psutil", "requests", "zipfile", "hashlib", "base64", "xml.dom.minidom", "csv", "socket", "re"],
+    "commands": [
+      {
+        "name": "hostname",
+        "description": "Prints the hostname of the system.",
+        "code": "import socket\nprint(socket.gethostname())"
+      },
+      {
+        "name": "ipaddress",
+        "description": "Prints the IP address of the system.",
+        "code": "import socket\nprint(socket.gethostbyname(socket.gethostname()))"
+      },
+      {
+        "name": "portscan",
+        "description": "Scans open ports on a specified host.",
+        "code": "import socket\nhost = input('Enter host to scan: ')\nfor port in range(1, 1025):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.settimeout(1)\n    result = sock.connect_ex((host, port))\n    if result == 0:\n        print(f'Port {port}: Open')\n    sock.close()"
+      },
+      {
+        "name": "regexsearch",
+        "description": "Searches for a regex pattern in a file.",
+        "code": "import re\nfilename = input('Enter file name: ')\npattern = input('Enter regex pattern: ')\nwith open(filename, 'r') as file:\n    for line in file:\n        if re.search(pattern, line):\n            print(line.strip())"
+      },
+      {
+        "name": "regexreplace",
+        "description": "Replaces a regex pattern in a file.",
+        "code": "import re\nfilename = input('Enter file name: ')\npattern = input('Enter regex pattern: ')\nreplacement = input('Enter replacement string: ')\nwith open(filename, 'r') as file:\n    content = file.read()\nnew_content = re.sub(pattern, replacement, content)\nwith open(filename, 'w') as file:\n    file.write(new_content)\nprint(f'Replaced {pattern} with {replacement} in {filename}')"
+      },
+      {
+        "name": "filepermissions",
+        "description": "Prints the permissions of a file.",
+        "code": "import os\nfilename = input('Enter file name: ')\npermissions = oct(os.stat(filename).st_mode)[-3:]\nprint(f'Permissions: {permissions}')"
+      },
+      {
+        "name": "setfilepermissions",
+        "description": "Sets the permissions of a file.",
+        "code": "import os\nfilename = input('Enter file name: ')\npermissions = input('Enter permissions (e.g., 755): ')\nos.chmod(filename, int(permissions, 8))\nprint(f'Set permissions of {filename} to {permissions}')"
+      },
+      {
+        "name": "downloadimage",
+        "description": "Downloads an image from a URL.",
+        "code": "import requests\nurl = input('Enter image URL to download: ')\nfilename = input('Enter filename to save as: ')\nresponse = requests.get(url)\nwith open(filename, 'wb') as file:\n    file.write(response.content)\nprint(f'Downloaded image from {url} to {filename}')"
+      },
+      {
+        "name": "resizeimage",
+        "description": "Resizes an image.",
+        "code": "from PIL import Image\nfilename = input('Enter image file name: ')\nwidth = int(input('Enter new width: '))\nheight = int(input('Enter new height: '))\nimage = Image.open(filename)\nresized_image = image.resize((width, height))\nresized_image.save(filename)\nprint(f'Resized {filename} to {width}x{height}')"
+      },
+      {
+        "name": "rotateimage",
+        "description": "Rotates an image.",
+        "code": "from PIL import Image\nfilename = input('Enter image file name: ')\nangle = int(input('Enter angle to rotate: '))\nimage = Image.open(filename)\nrotated_image = image.rotate(angle)\nrotated_image.save(filename)\nprint(f'Rotated {filename} by {angle} degrees')"
+      },
+      {
+        "name": "convertimage",
+        "description": "Converts an image to a different format.",
+        "code": "from PIL import Image\nfilename = input('Enter image file name: ')\nnew_format = input('Enter new format (e.g., PNG, JPEG): ')\nimage = Image.open(filename)\nnew_filename = filename.rsplit('.', 1)[0] + '.' + new_format.lower()\nimage.save(new_filename)\nprint(f'Converted {filename} to {new_filename}')"
+      },
+      {
+        "name": "mergepdfs",
+        "description": "Merges multiple PDF files into one.",
+        "code": "from PyPDF2 import PdfFileMerger\npdfs = input('Enter PDF files to merge (comma-separated): ').split(',')\nmerger = PdfFileMerger()\nfor pdf in pdfs:\n    merger.append(pdf)\noutput = input('Enter output PDF file name: ')\nmerger.write(output)\nmerger.close()\nprint(f'Merged PDFs into {output}')"
+      },
+      {
+        "name": "splitpdf",
+        "description": "Splits a PDF file into individual pages.",
+        "code": "from PyPDF2 import PdfFileReader, PdfFileWriter\nfilename = input('Enter PDF file name: ')\npdf = PdfFileReader(filename)\nfor page_num in range(pdf.getNumPages()):\n    pdf_writer = PdfFileWriter()\n    pdf_writer.addPage(pdf.getPage(page_num))\n    output_filename = f'{filename[:-4]}_page_{page_num + 1}.pdf'\n    with open(output_filename, 'wb') as output_file:\n        pdf_writer.write(output_file)\n    print(f'Created {output_filename}')"
+      },
+      {
+        "name": "extracttextpdf",
+        "description": "Extracts text from a PDF file.",
+        "code": "from PyPDF2 import PdfFileReader\nfilename = input('Enter PDF file name: ')\npdf = PdfFileReader(filename)\ntext = ''\nfor page_num in range(pdf.getNumPages()):\n    text += pdf.getPage(page_num).extractText()\nprint(text)"
+      },
+      {
+        "name": "sendemail",
+        "description": "Sends an email.",
+        "code": "import smtplib\nfrom email.mime.text import MIMEText\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.base import MIMEBase\nfrom email import encoders\nsender_email = input('Enter sender email: ')\nreceiver_email = input('Enter receiver email: ')\nsubject = input('Enter subject: ')\nbody = input('Enter body: ')\npassword = input('Enter sender email password: ')\nmsg = MIMEMultipart()\nmsg['From'] = sender_email\nmsg['To'] = receiver_email\nmsg['Subject'] = subject\nmsg.attach(MIMEText(body, 'plain'))\nfilename = input('Enter file to attach (leave blank if none): ')\nif filename:\n    attachment = open(filename, 'rb')\n    part = MIMEBase('application', 'octet-stream')\n    part.set_payload(attachment.read())\n    encoders.encode_base64(part)\n    part.add_header('Content-Disposition', f'attachment; filename= {filename}')\n    msg.attach(part)\nserver = smtplib.SMTP('smtp.gmail.com', 587)\nserver.starttls()\nserver.login(sender_email, password)\ntext = msg.as_string()\nserver.sendmail(sender_email, receiver_email, text)\nserver.quit()\nprint('Email sent successfully')"
+      }
+    ]
+  }

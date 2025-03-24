@@ -1,0 +1,51 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os", "json", "socket", "subprocess", "hashlib", "base64", "requests", "re"],
+    "commands": [
+      {
+        "name": "whois",
+        "description": "Performs a WHOIS lookup for a domain.",
+        "code": "import subprocess\ndomain = input('Enter domain: ')\nresult = subprocess.run(['whois', domain], capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "dnslookup",
+        "description": "Performs a DNS lookup for a domain.",
+        "code": "import socket\ndomain = input('Enter domain: ')\nresult = socket.gethostbyname(domain)\nprint(f'{domain} has IP address {result}')"
+      },
+      {
+        "name": "traceroute",
+        "description": "Performs a traceroute to a specified host.",
+        "code": "import subprocess\nhost = input('Enter host: ')\nresult = subprocess.run(['tracert', host], capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "ipgeo",
+        "description": "Fetches geolocation information for an IP address.",
+        "code": "import requests\nip = input('Enter IP address: ')\nresponse = requests.get(f'http://ip-api.com/json/{ip}')\ndata = response.json()\nif data['status'] == 'success':\n    print(f\"IP: {data['query']}\")\n    print(f\"Country: {data['country']}\")\n    print(f\"Region: {data['regionName']}\")\n    print(f\"City: {data['city']}\")\n    print(f\"ISP: {data['isp']}\")\nelse:\n    print('Invalid IP address')"
+      },
+      {
+        "name": "subdomainfinder",
+        "description": "Finds subdomains for a given domain.",
+        "code": "import requests\nimport re\ndomain = input('Enter domain: ')\nresponse = requests.get(f'https://crt.sh/?q=%25.{domain}&output=json')\nsubdomains = set()\nif response.status_code == 200:\n    data = response.json()\n    for entry in data:\n        subdomains.add(entry['name_value'])\n    for subdomain in subdomains:\n        print(subdomain)\nelse:\n    print('Error fetching subdomains')"
+      },
+      {
+        "name": "httpheaders",
+        "description": "Fetches HTTP headers for a URL.",
+        "code": "import requests\nurl = input('Enter URL: ')\nresponse = requests.head(url)\nfor header, value in response.headers.items():\n    print(f'{header}: {value}')"
+      },
+      {
+        "name": "sqlmap",
+        "description": "Runs SQLMap to test for SQL injection vulnerabilities.",
+        "code": "import subprocess\nurl = input('Enter URL to test: ')\nresult = subprocess.run(['sqlmap', '-u', url, '--batch'], capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "nmapscan",
+        "description": "Runs Nmap to scan a host.",
+        "code": "import subprocess\nhost = input('Enter host to scan: ')\nresult = subprocess.run(['nmap', host], capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "xssscan",
+        "description": "Scans a URL for XSS vulnerabilities.",
+        "code": "import requests\nurl = input('Enter URL to scan: ')\npayload = '<script>alert(1)</script>'\nresponse = requests.get(url, params={'q': payload})\nif payload in response.text:\n    print('XSS vulnerability found')\nelse:\n    print('No XSS vulnerability found')"
+      }
+    ]
+  }

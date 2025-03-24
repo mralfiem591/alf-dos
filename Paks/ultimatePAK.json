@@ -1,0 +1,136 @@
+{
+    "requirements": "Python 3.6 or higher",
+    "dependencies": ["os", "json", "datetime", "shutil", "platform", "subprocess", "psutil", "requests", "zipfile", "hashlib", "base64", "xml.dom.minidom", "csv"],
+    "commands": [
+      {
+        "name": "run",
+        "description": "Runs a shell command.",
+        "code": "import subprocess\ncommand = input('Enter shell command to run: ')\nresult = subprocess.run(command, shell=True, capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "ping",
+        "description": "Pings a specified host.",
+        "code": "import subprocess\nhost = input('Enter host to ping: ')\nresult = subprocess.run(['ping', host], capture_output=True, text=True)\nprint(result.stdout)"
+      },
+      {
+        "name": "env",
+        "description": "Prints environment variables.",
+        "code": "import os\nfor key, value in os.environ.items():\n    print(f'{key}: {value}')"
+      },
+      {
+        "name": "uptime",
+        "description": "Prints system uptime.",
+        "code": "import os\nimport time\nif os.name == 'nt':\n    import ctypes\n    kernel32 = ctypes.windll.kernel32\n    uptime = kernel32.GetTickCount64() / 1000\nelse:\n    uptime = time.time() - os.stat('/proc/1').st_ctime\nprint(f'System uptime: {uptime} seconds')"
+      },
+      {
+        "name": "diskusage",
+        "description": "Prints disk usage information.",
+        "code": "import shutil\ntotal, used, free = shutil.disk_usage('/')\nprint(f'Total: {total // (2**30)} GiB')\nprint(f'Used: {used // (2**30)} GiB')\nprint(f'Free: {free // (2**30)} GiB')"
+      },
+      {
+        "name": "memory",
+        "description": "Prints memory usage information.",
+        "code": "import psutil\nmemory = psutil.virtual_memory()\nprint(f'Total: {memory.total // (2**20)} MiB')\nprint(f'Available: {memory.available // (2**20)} MiB')\nprint(f'Used: {memory.used // (2**20)} MiB')\nprint(f'Percentage: {memory.percent}%')"
+      },
+      {
+        "name": "cpu",
+        "description": "Prints CPU usage information.",
+        "code": "import psutil\ncpu_percent = psutil.cpu_percent(interval=1)\nprint(f'CPU Usage: {cpu_percent}%')"
+      },
+      {
+        "name": "netstat",
+        "description": "Prints network statistics.",
+        "code": "import psutil\nnet_io = psutil.net_io_counters()\nprint(f'Bytes Sent: {net_io.bytes_sent}')\nprint(f'Bytes Received: {net_io.bytes_recv}')"
+      },
+      {
+        "name": "processes",
+        "description": "Lists all running processes.",
+        "code": "import psutil\nfor proc in psutil.process_iter(['pid', 'name', 'username']):\n    print(proc.info)"
+      },
+      {
+        "name": "killprocess",
+        "description": "Kills a process by PID.",
+        "code": "import psutil\npid = int(input('Enter PID to kill: '))\nprocess = psutil.Process(pid)\nprocess.terminate()\nprint(f'Process {pid} terminated.')"
+      },
+      {
+        "name": "openurl",
+        "description": "Opens a URL in the default web browser.",
+        "code": "import webbrowser\nurl = input('Enter URL to open: ')\nwebbrowser.open(url)\nprint(f'Opened {url} in the default web browser.')"
+      },
+      {
+        "name": "downloadfile",
+        "description": "Downloads a file from a URL.",
+        "code": "import requests\nurl = input('Enter URL to download: ')\nfilename = input('Enter filename to save as: ')\nresponse = requests.get(url)\nwith open(filename, 'wb') as file:\n    file.write(response.content)\nprint(f'Downloaded {url} to {filename}')"
+      },
+      {
+        "name": "unzipfile",
+        "description": "Unzips a ZIP file.",
+        "code": "import zipfile\nfilename = input('Enter ZIP file name: ')\nextract_to = input('Enter directory to extract to: ')\nwith zipfile.ZipFile(filename, 'r') as zip_ref:\n    zip_ref.extractall(extract_to)\nprint(f'Extracted {filename} to {extract_to}')"
+      },
+      {
+        "name": "zipfile",
+        "description": "Creates a ZIP file.",
+        "code": "import zipfile\nfilename = input('Enter ZIP file name: ')\nfiles = input('Enter files to include (comma-separated): ').split(',')\nwith zipfile.ZipFile(filename, 'w') as zip_ref:\n    for file in files:\n        zip_ref.write(file)\nprint(f'Created {filename} with files: {', '.join(files)}')"
+      },
+      {
+        "name": "hashfile",
+        "description": "Calculates the SHA256 hash of a file.",
+        "code": "import hashlib\nfilename = input('Enter file name: ')\nsha256_hash = hashlib.sha256()\nwith open(filename, 'rb') as file:\n    for byte_block in iter(lambda: file.read(4096), b''):\n        sha256_hash.update(byte_block)\nprint(f'SHA256: {sha256_hash.hexdigest()}')"
+      },
+      {
+        "name": "base64encode",
+        "description": "Encodes a file in Base64.",
+        "code": "import base64\nfilename = input('Enter file name: ')\nwith open(filename, 'rb') as file:\n    encoded = base64.b64encode(file.read())\nprint(encoded.decode())"
+      },
+      {
+        "name": "base64decode",
+        "description": "Decodes a Base64 string to a file.",
+        "code": "import base64\nencoded = input('Enter Base64 string: ')\nfilename = input('Enter file name to save as: ')\nwith open(filename, 'wb') as file:\n    file.write(base64.b64decode(encoded))\nprint(f'Saved decoded content to {filename}')"
+      },
+      {
+        "name": "jsonformat",
+        "description": "Formats a JSON file.",
+        "code": "import json\nfilename = input('Enter JSON file name: ')\nwith open(filename, 'r') as file:\n    data = json.load(file)\nformatted = json.dumps(data, indent=4)\nprint(formatted)"
+      },
+      {
+        "name": "xmlformat",
+        "description": "Formats an XML file.",
+        "code": "import xml.dom.minidom\nfilename = input('Enter XML file name: ')\nwith open(filename, 'r') as file:\n    data = file.read()\nxml = xml.dom.minidom.parseString(data)\nformatted = xml.toprettyxml()\nprint(formatted)"
+      },
+      {
+        "name": "csvtojson",
+        "description": "Converts a CSV file to JSON.",
+        "code": "import csv\nimport json\nfilename = input('Enter CSV file name: ')\njson_filename = input('Enter JSON file name to save as: ')\nwith open(filename, 'r') as csv_file:\n    reader = csv.DictReader(csv_file)\n    rows = list(reader)\nwith open(json_filename, 'w') as json_file:\n    json.dump(rows, json_file, indent=4)\nprint(f'Converted {filename} to {json_filename}')"
+      },
+      {
+        "name": "jsontocsv",
+        "description": "Converts a JSON file to CSV.",
+        "code": "import csv\nimport json\nfilename = input('Enter JSON file name: ')\ncsv_filename = input('Enter CSV file name to save as: ')\nwith open(filename, 'r') as json_file:\n    data = json.load(json_file)\nwith open(csv_filename, 'w', newline='') as csv_file:\n    writer = csv.DictWriter(csv_file, fieldnames=data[0].keys())\n    writer.writeheader()\n    writer.writerows(data)\nprint(f'Converted {filename} to {csv_filename}')"
+      },
+      {
+        "name": "fileinfo",
+        "description": "Prints information about a file.",
+        "code": "import os\nfilename = input('Enter file name: ')\nfile_info = os.stat(filename)\nprint(f'Size: {file_info.st_size} bytes')\nprint(f'Created: {time.ctime(file_info.st_ctime)}')\nprint(f'Modified: {time.ctime(file_info.st_mtime)}')"
+      },
+      {
+        "name": "searchfile",
+        "description": "Searches for a string in a file.",
+        "code": "filename = input('Enter file name: ')\nsearch_string = input('Enter string to search for: ')\nwith open(filename, 'r') as file:\n    for line in file:\n        if search_string in line:\n            print(line.strip())"
+      },
+      {
+        "name": "countlines",
+        "description": "Counts the number of lines in a file.",
+        "code": "filename = input('Enter file name: ')\nwith open(filename, 'r') as file:\n    line_count = sum(1 for line in file)\nprint(f'Number of lines: {line_count}')"
+      },
+      {
+        "name": "countwords",
+        "description": "Counts the number of words in a file.",
+        "code": "filename = input('Enter file name: ')\nwith open(filename, 'r') as file:\n    word_count = sum(len(line.split()) for line in file)\nprint(f'Number of words: {word_count}')"
+      },
+      {
+        "name": "countchars",
+        "description": "Counts the number of characters in a file.",
+        "code": "filename = input('Enter file name: ')\nwith open(filename, 'r') as file:\n    char_count = sum(len(line) for line in file)\nprint(f'Number of characters: {char_count}')"
+      }
+    ]
+  }
