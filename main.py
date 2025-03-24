@@ -8,9 +8,10 @@ import shutil
 import requests
 from dotenv import load_dotenv
 from packaging import version as packaging_version
+import random
 
 CONFIG_FILE = "config.json"
-version = "13"
+version = "14"
 
 class Colours:
     RESET = "\033[0m"
@@ -91,6 +92,10 @@ def update(script_dir):
             script_path = os.path.join(script_dir, "main.py")
             with open(script_path, 'w') as file:
                 file.write(latest_script)
+                count_lines = count_lines(script_path)
+            for i in range(random.randint(35, 600)):
+                print(f"Updated line {random.randint(1, count_lines)} of {count_lines}...")
+                time.sleep(0.01)
             print("Update successful. Please restart the script.")
             data_write("reboot_needed", True, script_dir)
         else:
@@ -98,6 +103,9 @@ def update(script_dir):
     except Exception as e:
         print(f"An error occurred during the update: {e}")
 
+def count_lines(file_path):
+    with open(file_path, 'r') as file:
+        return sum(1 for line in file)
 def clear_screen():
     # Clear the console screen
     if os.name == 'nt':  # For Windows
