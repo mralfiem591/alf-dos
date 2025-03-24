@@ -105,7 +105,7 @@ def update(script_dir):
                     if file_response.status_code == 200:
                         local_path = os.path.join(script_dir, file_path)
                         os.makedirs(os.path.dirname(local_path), exist_ok=True)
-                        with open(local_path, 'w') as local_file:
+                        with open(local_path, 'w', encoding='utf-8') as local_file:
                             local_file.write(file_response.text)
                         print(f"Updated {file_path}")
                     else:
@@ -115,7 +115,7 @@ def update(script_dir):
             changelog_response = requests.get(changelog_url, headers=headers)
             if changelog_response.status_code == 200:
                 changelog_path = os.path.join(script_dir, "changelog.txt")
-                with open(changelog_path, 'w') as changelog_file:
+                with open(changelog_path, 'w', encoding='utf-8') as changelog_file:
                     changelog_file.write(changelog_response.text)
                 print("Updated changelog.txt")
             else:
@@ -130,6 +130,7 @@ def update(script_dir):
 def count_lines(file_path):
     with open(file_path, 'r') as file:
         return sum(1 for line in file)
+    
 def clear_screen():
     # Clear the console screen
     if os.name == 'nt':  # For Windows
@@ -140,7 +141,7 @@ def clear_screen():
 def update_changelog(script_dir):
     changelog_path = os.path.join(script_dir, "changelog.txt")
     try:
-        with open(changelog_path, 'r') as file:
+        with open(changelog_path, 'r', encoding='utf-8') as file:
             print(file.read())
     except FileNotFoundError:
         print("changelog.txt file not found.")
