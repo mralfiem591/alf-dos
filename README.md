@@ -23,6 +23,7 @@ ALF-DOS
 ├── config.json
 ├── .gitignore
 ├── key.env
+├── changelog.txt
 └── requirements.txt
 ```
 
@@ -100,6 +101,7 @@ The following commands are available in the ALF-DOS system:
 - **gitpaklist**: List all GitHub paks.
 - **gitpakall**: Download all GitHub paks.
 - **update**: Updates ALF-DOS.
+- **update-changelog**: Open update changelog. (v0.15.5+ only)
 - **reboot**: Reboots ALF-DOS.
 - **setup**: Open setup.
 Other commands can be downloaded from CMDPAKs.
