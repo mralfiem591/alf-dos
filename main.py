@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
-version = "0.2.0"
+version = "0.3.1"
 
 class Colours:
     RESET = "\033[0m"
@@ -268,6 +268,7 @@ def settings(script_dir):
         print("4. Run Automated PAK Install")
         print("5. Run Automated Dependency Install")
         print("6. Run Automated PAK and Dependency Install")
+        print("7. Update ALF-DOS")
         print("0. Exit Settings")
         
         choice = input("Select an option: ").strip()
@@ -292,6 +293,11 @@ def settings(script_dir):
         elif choice == '6':
             cmdpak_refresh(script_dir)
             cmdpak_dep(script_dir)
+        elif choice == '7':
+            if check_updates(version, True):
+                update(script_dir)
+            else:
+                print("No updates available.")
         else:
             print("Invalid option. Please try again.")
         
