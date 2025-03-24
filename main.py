@@ -7,9 +7,10 @@ import pkg_resources
 import shutil
 import requests
 from dotenv import load_dotenv
+from packaging import version as packaging_version
 
 CONFIG_FILE = "config.json"
-version = "12"
+version = "13"
 
 class Colours:
     RESET = "\033[0m"
@@ -52,22 +53,23 @@ def gitpakall(script_dir):
     except Exception as e:
         print(f"An error occurred while downloading PAKs: {e}")
 
-def check_updates(version, system):
+def check_updates(current_version, system):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
     url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/version.txt"
     headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"}
+        "Authorization": f"Bearer {GITHUB_KEY}"
+    }
     try:
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             latest_version = response.text.strip()
-            if latest_version > version:
-                if system == False:
-                    return f"ALF-DOS isn't the newest version. v{latest_version} is available. Run 'update' to update."
+            if packaging_version.parse(latest_version) > packaging_version.parse(current_version):
+                if not system:
+                    return f"ALF-DOS v{latest_version} is available. Run 'update' to update."
                 else:
                     return True
             else:
-                if system == False:
+                if not system:
                     return "ALF-DOS is up to date."
                 else:
                     return False
