@@ -40,7 +40,27 @@ def check_updates(version):
             return "Failed to check for updates."
     except Exception as e:
         return f"An error occurred finding updates: {e}"
-    
+
+def update(script_dir):
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/main.py"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_KEY}"
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            latest_script = response.text
+            script_path = os.path.join(script_dir, "main.py")
+            with open(script_path, 'w') as file:
+                file.write(latest_script)
+            print("Update successful. Please restart the script.")
+            data_write("reboot_needed", True, script_dir)
+        else:
+            print("Failed to download the latest version.")
+    except Exception as e:
+        print(f"An error occurred during the update: {e}")
+
 def clear_screen():
     # Clear the console screen
     if os.name == 'nt':  # For Windows
@@ -561,6 +581,10 @@ def main():
             continue
         elif command_name.lower() == 'cmdpak-grab':
             cmdpak_grab(script_dir)
+            input("Command finished. Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'update':
+            update(script_dir)
             input("Command finished. Press Enter to continue...")
             continue
         try:
