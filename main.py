@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.6"
+version = "0.15.7"
 build = "alpha"
 count_lines = 0
 
