@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.1"
+version = "0.15.2"
 build = "alpha"
 count_lines = 0
 
@@ -77,7 +77,7 @@ def check_updates(current_version, system):
                 else:
                     return False
         else:
-            return "Failed to check for updates."
+            return "Failed to check for updates. Please ensure key.env is set up correctly. Don't know what that is? Please refer to the README.md file."
     except Exception as e:
         return f"An error occurred finding updates: {e}"
 
@@ -95,7 +95,7 @@ def update(script_dir):
             with open(script_path, 'w') as file:
                 file.write(latest_script)
                 count_lines = count_lines(script_path)
-            for i in range(random.randint(35, 400)):
+            for i in range(random.randint(35, 250)):
                 print(f"Updated line {random.randint(1, count_lines)} of {count_lines}...")
                 time.sleep(0.01)
             print("Update successful. Please restart the script.")
