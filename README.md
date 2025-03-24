@@ -82,7 +82,7 @@ To set up and run the ALF-DOS system, follow these steps:
    GITHUB_PAT=your_github_personal_access_token
    ```
 
-   this is required for the auto-updater to function.
+   this is required for the auto-updater to function. **For security reasons: the only permission you should give the access token is Content: read only. 
 
 ## Commands
 
