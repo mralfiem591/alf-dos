@@ -5,8 +5,11 @@ import sys
 import subprocess
 import pkg_resources
 import shutil
+import requests
+from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
+version = "0.1.0"
 
 class Colours:
     RESET = "\033[0m"
@@ -20,6 +23,24 @@ class Colours:
     CYAN = "\033[96m"
     WHITE = "\033[97m"
 
+def check_updates(version):
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/version.txt"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_KEY}"}
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            latest_version = response.text.strip()
+            if latest_version > version:
+                return f"ALF-DOS {latest_version} is available. Run 'update' to update."
+            else:
+                return "ALF-DOS is up to date."
+        else:
+            return "Failed to check for updates."
+    except Exception as e:
+        return f"An error occurred finding updates: {e}"
+    
 def clear_screen():
     # Clear the console screen
     if os.name == 'nt':  # For Windows
@@ -455,7 +476,9 @@ def main():
             print("Reboot needed. Please run 'reboot'.")
         if data_read("potential_issue", script_dir) is not None and data_read("potential_issue", script_dir):
             print(f"{Colours.RED}{Colours.BOLD}{Colours.UNDERLINE}WARNING: POTENTIAL ISSUE DETECTED. ALF-DOS may not function. Please run 'reboot' to automatically boot into repair mode. If the issue stays after repair, please run setup {Colours.BOLD}{Colours.UNDERLINE}IMMEDIATELY..{Colours.RESET}")
-        print(f"{Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET} Command Line Interface v1.0")
+        print(f"{Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET} Command Line Interface v{version}")
+        load_dotenv(dotenv_path=os.path.join(script_dir, 'key.env'))
+        print(check_updates(version))
         print("""Type 'help' help finding commands, 'exit' to exit, or a command to execute.
               """)
         command_name = input("$ " + os.getcwd() + " > ")
