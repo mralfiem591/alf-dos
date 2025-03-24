@@ -12,6 +12,7 @@ import random
 
 CONFIG_FILE = "config.json"
 version = "14"
+count_lines = 0
 
 class Colours:
     RESET = "\033[0m"
@@ -105,9 +106,7 @@ def update(script_dir):
 
 def count_lines(file_path):
     with open(file_path, 'r') as file:
-        lines = file.readlines()
-        return len(lines)
-
+        return sum(1 for line in file)
 def clear_screen():
     # Clear the console screen
     if os.name == 'nt':  # For Windows
