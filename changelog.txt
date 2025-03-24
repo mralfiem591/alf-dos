@@ -1,0 +1,3 @@
+Added update-changelog
+Fixed bugs
+Imrpoved script speed
