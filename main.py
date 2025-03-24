@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
-version = "0.3.2"
+version = "0.4.0"
 
 class Colours:
     RESET = "\033[0m"
@@ -22,6 +22,35 @@ class Colours:
     MAGENTA = "\033[95m"
     CYAN = "\033[96m"
     WHITE = "\033[97m"
+
+def gitpakall(script_dir):
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = "https://api.github.com/repos/mralfiem591/alf-dos/contents/Paks"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_KEY}"
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            paks = response.json()
+            pak_names = [pak['name'] for pak in paks if pak['name'].endswith('PAK.json')]
+            for pak_name in pak_names:
+                pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos/main/Paks/{pak_name}"
+                pak_response = requests.get(pak_url, headers=headers)
+                if pak_response.status_code == 200:
+                    pak_content = pak_response.text
+                    paks_dir = os.path.join(script_dir, "Paks")
+                    os.makedirs(paks_dir, exist_ok=True)
+                    pak_path = os.path.join(paks_dir, pak_name)
+                    with open(pak_path, 'w') as file:
+                        file.write(pak_content)
+                    print(f"Downloaded {pak_name} to the Paks folder.")
+                else:
+                    print(f"Failed to download {pak_name}. Status code: {pak_response.status_code}")
+        else:
+            print("Failed to list PAKs.")
+    except Exception as e:
+        print(f"An error occurred while downloading PAKs: {e}")
 
 def check_updates(version, system):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
@@ -418,6 +447,10 @@ def pak_rm(script_dir):
     else:
         print(f"PAK file {pak_name} not found in the Paks folder.")
 
+def checkpaks(script_dir):
+    paks_dir = os.path.join(script_dir, "Paks")
+    return os.path.exists(paks_dir)
+
 def cmdpak_grab(script_dir):
     current_dir = os.getcwd()
     paks_dir = os.path.join(script_dir, "Paks")
@@ -559,6 +592,9 @@ def main():
         if input("Would you like to read the README? (y/n)") == "y":
             read_readme(script_dir)
             input("Press Enter to continue")
+        if checkpaks(script_dir):
+            if input("Would you like to install all available PAKs? (y/n)") == "y":
+                gitpakall(script_dir)
     while True:
         clear_screen()
         if data_read("debug_mode", script_dir):
@@ -625,38 +661,66 @@ def main():
             input("Press Enter to continue...")
             continue
         elif command_name.lower() == 'pak-rm':
-            pak_rm(script_dir)
+            if checkpaks(script_dir):
+                pak_rm(script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'gitpakall':
+            if checkpaks(script_dir):
+                gitpakall(script_dir)
+            else:
+                print("Pak Directory Missing!")
+            input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'settings':
             settings(script_dir)
             input("Settings updated. Press Enter to continue...")
             continue
         elif command_name.lower().startswith('cmdpak-read '):
-            file_path = command_name[12:].strip()
-            read_cmdpak(file_path, script_dir)
+            if checkpaks(script_dir):
+                file_path = command_name[12:].strip()
+                read_cmdpak(file_path, script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower().startswith('cmdpak-one '):
-            file_path = command_name[11:].strip()
-            read_cmdpak_one(file_path, script_dir)
+            if checkpaks(script_dir):
+                file_path = command_name[11:].strip()
+                read_cmdpak_one(file_path, script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower().startswith('cmdpak-all '):
-            directory = command_name[11:].strip()
-            read_all_cmdpaks(directory, script_dir)
+            if checkpaks(script_dir):
+                directory = command_name[11:].strip()
+                read_all_cmdpaks(directory, script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'cmdpak-refresh':
-            cmdpak_refresh(script_dir)
+            if checkpaks(script_dir):
+                cmdpak_refresh(script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Success! Press Enter to continue...")
             continue
         elif command_name.lower() == 'cmdpak-dep':
-            cmdpak_dep(script_dir)
+            if checkpaks(script_dir):
+                cmdpak_dep(script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'cmdpak-grab':
-            cmdpak_grab(script_dir)
+            if checkpaks(script_dir):
+                cmdpak_grab(script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'update':
@@ -667,11 +731,17 @@ def main():
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'gitpaklist':
-            gitpaklist()
+            if checkpaks(script_dir):
+                gitpaklist()
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         elif command_name.lower() == 'gitpakget':
-            gitpakget(script_dir)
+            if checkpaks(script_dir):
+                gitpakget(script_dir)
+            else:
+                print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
         try:
