@@ -1,10 +1,9 @@
-Current update:
+Current Update:
+  Improved readme clarity
+
+Previous Update:
   Improved changelog print layout
   Fixed changelog being unopenable
   Made changelog auto-open after update
   General fixes
   Speed upgrades
-
-Previous update:
-  Added update-changelog
-  Other fixes
