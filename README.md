@@ -79,6 +79,7 @@ The following commands are available in the ALF-DOS system:
 - **pak-rm**: Delete a Pak.
 - **gitpakget**: Download a GitHub Pak.
 - **gitpaklist**: List all GitHub paks.
+- **gitpakall**: Download all GitHub paks.
 - **update**: Updates ALF-DOS.
 - **reboot**: Reboots ALF-DOS.
 - **setup**: Open setup.
