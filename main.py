@@ -93,9 +93,9 @@ def update(script_dir):
             script_path = os.path.join(script_dir, "main.py")
             with open(script_path, 'w') as file:
                 file.write(latest_script)
-                count_lines = count_lines(os.join.path(script_path, "main.py"))
+            line_count = count_lines(script_path)
             for i in range(random.randint(35, 600)):
-                print(f"Updated line {random.randint(1, count_lines)} of {count_lines}...")
+                print(f"Updated line {random.randint(1, line_count)} of {line_count}...")
                 time.sleep(0.01)
             print("Update successful. Please restart the script.")
             data_write("reboot_needed", True, script_dir)
