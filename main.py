@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.6"
+version = "0.15.5"
 build = "alpha"
 count_lines = 0
 
@@ -121,6 +121,7 @@ def update(script_dir):
             else:
                 print("Failed to download changelog.txt. Status code:", changelog_response.status_code)
             print("Update successful. Please restart the script.")
+            update_changelog(script_dir)
             data_write("reboot_needed", True, script_dir)
         else:
             print("Failed to list repository contents.")
