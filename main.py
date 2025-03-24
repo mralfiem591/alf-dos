@@ -61,7 +61,7 @@ def check_updates(version, system):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             latest_version = response.text.strip()
-            if latest_version != version:
+            if latest_version > version:
                 if system == False:
                     return f"ALF-DOS isn't the newest version. v{latest_version} is available. Run 'update' to update."
                 else:
