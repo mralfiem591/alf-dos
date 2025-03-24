@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 CONFIG_FILE = "config.json"
-version = "0.4.0"
+version = "10"
 
 class Colours:
     RESET = "\033[0m"
