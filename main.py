@@ -354,6 +354,49 @@ def corrupted_fix(script_dir):
         print("Normally repair would be run, but debug mode is enabled. Please run 'setup' to disable debug mode.")
         input("Press Enter to continue...")
 
+def gitpaklist():
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = "https://api.github.com/repos/mralfiem591/alf-dos/contents/Paks"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_KEY}"
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            paks = response.json()
+            pak_names = sorted([pak['name'].replace("PAK.json", "") for pak in paks if pak['name'].endswith('PAK.json')])
+            print("Available PAKs:")
+            for pak_name in pak_names:
+                print(pak_name)
+        else:
+            print("Failed to list PAKs.")
+    except Exception as e:
+        print(f"An error occurred while listing PAKs: {e}")
+
+def gitpakget(script_dir):
+    pak_name = input("Enter the name of the PAK to download: ").strip()
+    if not pak_name.endswith("PAK.json"):
+        pak_name += "PAK.json"
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos/main/Paks/{pak_name}"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_KEY}"
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            pak_content = response.text
+            paks_dir = os.path.join(script_dir, "Paks")
+            os.makedirs(paks_dir, exist_ok=True)
+            pak_path = os.path.join(paks_dir, pak_name)
+            with open(pak_path, 'w') as file:
+                file.write(pak_content)
+            print(f"Downloaded {pak_name} to the Paks folder. Please remember to run 'cmdpak-refresh' to enable the new PAK and 'cmdpak-dep' to install dependencies.")
+        else:
+            print(f"Failed to download {pak_name}. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"An error occurred during the download: {e}")
+
 def cmdpak_grab(script_dir):
     current_dir = os.getcwd()
     paks_dir = os.path.join(script_dir, "Paks")
@@ -375,6 +418,7 @@ def main():
     # Set the current working directory to the directory containing main.py
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
+    data_write("reboot_needed", False, script_dir)
     if data_read("debug_mode", script_dir) is not True:
         if data_read("first_run", script_dir) is False or data_read("first_run", script_dir) is None:
             # Initialize config.json if it does not exist
@@ -595,6 +639,14 @@ def main():
                 update(script_dir)
             else:
                 print("No updates available.")
+            input("Command finished. Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'gitpaklist':
+            gitpaklist()
+            input("Command finished. Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'gitpakget':
+            gitpakget(script_dir)
             input("Command finished. Press Enter to continue...")
             continue
         try:
