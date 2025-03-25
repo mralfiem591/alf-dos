@@ -1,9 +1,9 @@
-Current Update:
+Current Update: (25/03/2025)
   ENTERED BETA!!!
   Removed token requirement
   Added auto-installer
 
-Previous Update:
+Previous Update: (24/03/2025)
   Added themes
   Added pak search
   Added pak details
