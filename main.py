@@ -6,13 +6,12 @@ import subprocess
 import pkg_resources
 import shutil
 import requests
-from dotenv import load_dotenv
 from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.16.1"
-build = "alpha"
+version = "0.17.0"
+build = "beta"
 count_lines = 0
 
 class Colours:
@@ -43,19 +42,12 @@ class Colours:
             print("No theme.json file found. Using default colors.")
 
 def gitpakall(script_dir):
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
-    if not GITHUB_KEY:
-        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
-        return
 
     # URL for the root directory of the repository
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"
-    }
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             paks = response.json()
             pak_names = [pak['name'] for pak in paks if pak['name'].endswith('PAK.json')]
@@ -63,7 +55,7 @@ def gitpakall(script_dir):
                 print("Downloading available PAKs:")
                 for pak_name in pak_names:
                     pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
-                    pak_response = requests.get(pak_url, headers=headers)
+                    pak_response = requests.get(pak_url)
                     if pak_response.status_code == 200:
                         pak_content = pak_response.text
                         paks_dir = os.path.join(script_dir, "Paks")
@@ -83,13 +75,8 @@ def gitpakall(script_dir):
         print(f"An error occurred while downloading PAKs: {e}")
 
 def check_updates(current_version, system):
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
     url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/version.txt"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"
-    }
-    try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             latest_version = response.text.strip()
             if packaging_version.parse(latest_version) > packaging_version.parse(current_version):
@@ -103,17 +90,15 @@ def check_updates(current_version, system):
                 else:
                     return False
         else:
-            return "Failed to check for updates. Please ensure key.env is set up correctly. Don't know what that is? Please refer to the README.md file."
+            return "Failed to check for updates."
     except Exception as e:
         return f"An error occurred finding updates: {e}"
     
 def view_pak_details(pak_name):
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
     url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}.json"
-    headers = {"Authorization": f"Bearer {GITHUB_KEY}"}
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             pak_details = json.loads(response.text)
             print(f"Details for {pak_name}:")
@@ -126,10 +111,9 @@ def view_pak_details(pak_name):
 def search_paks(keyword):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
-    headers = {"Authorization": f"Bearer {GITHUB_KEY}"}
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             paks = response.json()
             matching_paks = [pak['name'] for pak in paks if keyword.lower() in pak['name'].lower()]
@@ -147,9 +131,6 @@ def search_paks(keyword):
 def update(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
     repo_url = "https://api.github.com/repos/mralfiem591/alf-dos/contents"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"
-    }
     exclude_files = ["key.env", "config.json", "version.txt"]
     exclude_dirs = ["Commands", "Paks"]
 
@@ -164,7 +145,7 @@ def update(script_dir):
 
                 file_url = file['download_url']
                 if file_url:
-                    file_response = requests.get(file_url, headers=headers)
+                    file_response = requests.get(file_url)
                     if file_response.status_code == 200:
                         local_path = os.path.join(script_dir, file_path)
                         os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -175,7 +156,7 @@ def update(script_dir):
                         print(f"Failed to download {file_path}. Status code: {file_response.status_code}")
             # Fetch the latest changelog.txt
             changelog_url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/changelog.txt"
-            changelog_response = requests.get(changelog_url, headers=headers)
+            changelog_response = requests.get(changelog_url)
             if changelog_response.status_code == 200:
                 changelog_path = os.path.join(script_dir, "changelog.txt")
                 with open(changelog_path, 'w', encoding='utf-8') as changelog_file:
@@ -500,19 +481,11 @@ def corrupted_fix(script_dir):
         input("Press Enter to continue...")
 
 def gitpaklist():
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
-    if not GITHUB_KEY:
-        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
-        return
 
     # URL for the root directory of the repository
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"
-    }
-
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             paks = response.json()
             # Filter and list only PAK names
@@ -533,19 +506,11 @@ def gitpakget(script_dir):
     pak_name = input("Enter the name of the PAK to download: ").strip()
     if not pak_name.endswith("PAK.json"):
         pak_name += "PAK.json"
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
-    if not GITHUB_KEY:
-        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
-        return
 
     # Correct URL for the root directory of the repository
     url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_KEY}"
-    }
-
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         if response.status_code == 200:
             pak_content = response.text
             paks_dir = os.path.join(script_dir, "Paks")
