@@ -33,23 +33,23 @@ To set up and run the ALF-DOS system, follow these steps:
 **PLEASE NOTE: Only cd and cmdpak are available right after install. Other commands must be downloaded via CMDPAK. Also note that the dependencies of a PAK may be wrong. Please check the PAK file, as it contains all the commands.**
 
 1. **Download**:
-   Download ALF-DOS to your main system.
+   Download ALF-DOS-installer to your main system.
 
-2. **Navigate to the Project Directory**:
-   Change into the project directory:
+2. **Run the Installer**
+   Execute the main installer:
 
    ```bash
-   cd ALF-DOS
+   python ALF-DOS-installer
    ```
 
 3. **Install Dependencies**:
-   If there are any dependencies required for the project, install them using:
+   If there are any dependencies required for the main project, install them using:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-   Please note some paks may have dependencies. You will be notified at Pak install.
+   Please note some Paks may have dependencies. You will be notified at Pak install.
 
 4. **Run the System**:
    Execute the main program:
