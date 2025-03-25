@@ -68,7 +68,7 @@ To set up and run the ALF-DOS system, follow these steps:
    $ {Your ALF-DOS Directory} >
    ```
 
-## Auto-Update
+## Auto-Update + Pak Installer
 
    To use the auto-updater, you must have a key.env setup. To do this, make a new file called
 
@@ -82,7 +82,7 @@ To set up and run the ALF-DOS system, follow these steps:
    GITHUB_PAT=your_github_personal_access_token
    ```
 
-   this is required for the auto-updater to function. **For security reasons: the only permission you should give the access token is Content: read only. 
+   this is required for the auto-updater to function. This is also required for the Pak installer to work. **For security reasons: the only permission you should give the access token is Content: read only. 
 
 ## Commands
 
