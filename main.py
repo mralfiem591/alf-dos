@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.9"
+version = "0.15.10"
 build = "alpha"
 count_lines = 0
 
@@ -29,6 +29,9 @@ class Colours:
 
 def gitpakall(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
+    if not GITHUB_KEY:
+        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
+        return
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
@@ -331,6 +334,7 @@ def data_write(value_name, value, script_dir):
     config[value_name] = value
     with open(config_file_path, 'w') as file:
         json.dump(config, file, indent=4)
+
 def settings(script_dir):
     while True:
         clear_screen()
@@ -437,6 +441,9 @@ def corrupted_fix(script_dir):
 
 def gitpaklist():
     GITHUB_KEY = os.getenv("GITHUB_PAT")
+    if not GITHUB_KEY:
+        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
+        return
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
@@ -459,6 +466,9 @@ def gitpakget(script_dir):
     if not pak_name.endswith("PAK.json"):
         pak_name += "PAK.json"
     GITHUB_KEY = os.getenv("GITHUB_PAT")
+    if not GITHUB_KEY:
+        print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
+        return
     url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/Paks/{pak_name}"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
