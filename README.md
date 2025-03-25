@@ -22,7 +22,6 @@ ALF-DOS
 ├── README.md
 ├── config.json
 ├── .gitignore
-├── key.env
 ├── changelog.txt
 └── requirements.txt
 ```
@@ -67,23 +66,6 @@ To set up and run the ALF-DOS system, follow these steps:
 
    $ {Your ALF-DOS Directory} >
    ```
-
-## Auto-Update + Pak Installer
-
-   **NOTE: TOKENS AND KEY.ENV ARE NO LONGER NEEDED**
-   To use the auto-updater, you must have a key.env setup. To do this, make a new file called
-
-   ```plaintext
-   key.env
-   ```
-
-   and in it put
-
-   ```bash
-   GITHUB_PAT=your_github_personal_access_token
-   ```
-
-   this is required for the auto-updater to function. This is also required for the Pak installer to work. **For security reasons: the only permission you should give the access token is Content: read only.
 
 ## Commands
 
