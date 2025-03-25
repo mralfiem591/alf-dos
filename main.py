@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.17.2"
+version = "0.17.3"
 build = "beta"
 count_lines = 0
 
@@ -857,6 +857,18 @@ def main():
                 print("Pak Directory Missing!")
             input("Command finished. Press Enter to continue...")
             continue
+        elif command_name.lower() == '42':
+            print("Are YOU the meaning of Life, The Universe, And Everything?")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == '7':
+            print("Are YOU lucky?")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'github-repo':
+            print("https://github.com/mralfiem591/alf-dos")
+            print("https://github.com/mralfiem591/alf-dos-paks")
+            input("Press Enter to continue...")
         try:
             command = load_command(command_name, script_dir)
             if command:
