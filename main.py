@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.16.0"
+version = "0.16.1"
 build = "alpha"
 count_lines = 0
 
@@ -26,6 +26,21 @@ class Colours:
     MAGENTA = "\033[95m"
     CYAN = "\033[96m"
     WHITE = "\033[97m"
+
+    @staticmethod
+    def load_theme(theme_path="theme.json"):
+        if os.path.exists(theme_path):
+            try:
+                with open(theme_path, 'r') as file:
+                    theme = json.load(file)
+                    for key, value in theme.items():
+                        if hasattr(Colours, key):
+                            setattr(Colours, key, value)
+                print("Theme loaded successfully.")
+            except json.JSONDecodeError:
+                print("Error: Invalid theme.json file. Using default colors.")
+        else:
+            print("No theme.json file found. Using default colors.")
 
 def gitpakall(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
@@ -91,6 +106,43 @@ def check_updates(current_version, system):
             return "Failed to check for updates. Please ensure key.env is set up correctly. Don't know what that is? Please refer to the README.md file."
     except Exception as e:
         return f"An error occurred finding updates: {e}"
+    
+def view_pak_details(pak_name):
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}.json"
+    headers = {"Authorization": f"Bearer {GITHUB_KEY}"}
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            pak_details = json.loads(response.text)
+            print(f"Details for {pak_name}:")
+            print(json.dumps(pak_details, indent=4))
+        else:
+            print(f"Failed to fetch details for {pak_name}. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"An error occurred while fetching PAK details: {e}")
+
+def search_paks(keyword):
+    GITHUB_KEY = os.getenv("GITHUB_PAT")
+    url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
+    headers = {"Authorization": f"Bearer {GITHUB_KEY}"}
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            paks = response.json()
+            matching_paks = [pak['name'] for pak in paks if keyword.lower() in pak['name'].lower()]
+            if matching_paks:
+                print("Matching PAKs:")
+                for pak in matching_paks:
+                    print(pak.replace("PAK.json", ""))
+            else:
+                print("No matching PAKs found.")
+        else:
+            print(f"Failed to search PAKs. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"An error occurred while searching for PAKs: {e}")
 
 def update(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
@@ -815,6 +867,19 @@ def main():
             update_changelog(script_dir)
             input("Press Enter to continue...")
             continue
+        elif command_name.lower() == 'theme-refresh':
+            Colours.load_theme()
+            print("Theme refreshed.")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'pak-details':
+            view_pak_details(input("Enter the name of the PAK to view details: ").strip(), script_dir)
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'pak-search':
+            search_paks(input("Enter the search term: ").strip(), script_dir)
+            input("Press Enter to continue...")
+            continue
         elif command_name.lower() == 'gitpakget':
             if checkpaks(script_dir):
                 gitpakget(script_dir)
@@ -835,4 +900,5 @@ def main():
         input("Command finished. Press Enter to continue...")
 
 if __name__ == "__main__":
+    Colours.load_theme()
     main()
