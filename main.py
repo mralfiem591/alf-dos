@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.10"
+version = "0.15.9"
 build = "alpha"
 count_lines = 0
 
@@ -32,30 +32,38 @@ def gitpakall(script_dir):
     if not GITHUB_KEY:
         print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
         return
+
+    # URL for the root directory of the repository
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
+
     try:
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             paks = response.json()
             pak_names = [pak['name'] for pak in paks if pak['name'].endswith('PAK.json')]
-            for pak_name in pak_names:
-                pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
-                pak_response = requests.get(pak_url, headers=headers)
-                if pak_response.status_code == 200:
-                    pak_content = pak_response.text
-                    paks_dir = os.path.join(script_dir, "Paks")
-                    os.makedirs(paks_dir, exist_ok=True)
-                    pak_path = os.path.join(paks_dir, pak_name)
-                    with open(pak_path, 'w') as file:
-                        file.write(pak_content)
-                    print(f"Downloaded {pak_name} to the Paks folder.")
-                else:
-                    print(f"Failed to download {pak_name}. Status code: {pak_response.status_code}")
+            if pak_names:
+                print("Downloading available PAKs:")
+                for pak_name in pak_names:
+                    pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
+                    pak_response = requests.get(pak_url, headers=headers)
+                    if pak_response.status_code == 200:
+                        pak_content = pak_response.text
+                        paks_dir = os.path.join(script_dir, "Paks")
+                        os.makedirs(paks_dir, exist_ok=True)
+                        pak_path = os.path.join(paks_dir, pak_name)
+                        with open(pak_path, 'w', encoding='utf-8') as file:
+                            file.write(pak_content)
+                        print(f"Downloaded: {pak_name}")
+                    else:
+                        print(f"Failed to download {pak_name}. Status code: {pak_response.status_code}")
+            else:
+                print("No PAKs found in the repository.")
         else:
-            print("Failed to list PAKs.")
+            print(f"Failed to list PAKs. Status code: {response.status_code}")
+            print(f"Response content: {response.text}")
     except Exception as e:
         print(f"An error occurred while downloading PAKs: {e}")
 
@@ -444,20 +452,28 @@ def gitpaklist():
     if not GITHUB_KEY:
         print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
         return
+
+    # URL for the root directory of the repository
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
+
     try:
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             paks = response.json()
-            pak_names = sorted([pak['name'].replace("PAK.json", "") for pak in paks if pak['name'].endswith('PAK.json')])
-            print("Available PAKs:")
-            for pak_name in pak_names:
-                print(pak_name)
+            # Filter and list only PAK names
+            pak_names = sorted([pak['name'] for pak in paks if pak['name'].endswith('PAK.json')])
+            if pak_names:
+                print("Available PAKs:")
+                for pak_name in pak_names:
+                    print(pak_name.replace("PAK.json", ""))  # Remove the ".PAK.json" extension for cleaner output
+            else:
+                print("No PAKs found in the repository.")
         else:
-            print("Failed to list PAKs.")
+            print(f"Failed to list PAKs. Status code: {response.status_code}")
+            print(f"Response content: {response.text}")
     except Exception as e:
         print(f"An error occurred while listing PAKs: {e}")
 
@@ -469,7 +485,9 @@ def gitpakget(script_dir):
     if not GITHUB_KEY:
         print("GITHUB_PAT not set. Please refer to the README.md file for more information.")
         return
-    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/Paks/{pak_name}"
+
+    # Correct URL for the root directory of the repository
+    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
@@ -481,13 +499,12 @@ def gitpakget(script_dir):
             paks_dir = os.path.join(script_dir, "Paks")
             os.makedirs(paks_dir, exist_ok=True)
             pak_path = os.path.join(paks_dir, pak_name)
-            with open(pak_path, 'w') as file:
+            with open(pak_path, 'w', encoding='utf-8') as file:
                 file.write(pak_content)
-            cmdpak_dep(script_dir)
-            cmdpak_refresh(script_dir)
-            print(f"Downloaded {pak_name} to the Paks folder.")
+            print(f"Downloaded: {pak_name}")
         else:
             print(f"Failed to download {pak_name}. Status code: {response.status_code}")
+            print(f"Response content: {response.text}")
     except Exception as e:
         print(f"An error occurred during the download: {e}")
 
