@@ -11,7 +11,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.15.7"
+version = "0.15.6"
 build = "alpha"
 count_lines = 0
 
@@ -39,7 +39,7 @@ def gitpakall(script_dir):
             paks = response.json()
             pak_names = [pak['name'] for pak in paks if pak['name'].endswith('PAK.json')]
             for pak_name in pak_names:
-                pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos/main/Paks/{pak_name}"
+                pak_url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}"
                 pak_response = requests.get(pak_url, headers=headers)
                 if pak_response.status_code == 200:
                     pak_content = pak_response.text
@@ -437,7 +437,7 @@ def corrupted_fix(script_dir):
 
 def gitpaklist():
     GITHUB_KEY = os.getenv("GITHUB_PAT")
-    url = "https://api.github.com/repos/mralfiem591/alf-dos/contents/Paks"
+    url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
@@ -459,7 +459,7 @@ def gitpakget(script_dir):
     if not pak_name.endswith("PAK.json"):
         pak_name += "PAK.json"
     GITHUB_KEY = os.getenv("GITHUB_PAT")
-    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos/main/Paks/{pak_name}"
+    url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/Paks/{pak_name}"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
