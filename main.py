@@ -10,36 +10,9 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.2"
+version = "0.18.4"
 build = "beta"
 count_lines = 0
-
-class Colours:
-    RESET = "\033[0m"
-    BOLD = "\033[1m"
-    UNDERLINE = "\033[4m"
-    RED = "\033[91m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    BLUE = "\033[94m"
-    MAGENTA = "\033[95m"
-    CYAN = "\033[96m"
-    WHITE = "\033[97m"
-
-    @staticmethod
-    def load_theme(theme_path="theme.json"):
-        if os.path.exists(theme_path):
-            try:
-                with open(theme_path, 'r') as file:
-                    theme = json.load(file)
-                    for key, value in theme.items():
-                        if hasattr(Colours, key):
-                            setattr(Colours, key, value)
-                print("Theme loaded successfully.")
-            except json.JSONDecodeError:
-                print("Error: Invalid theme.json file. Using default colors.")
-        else:
-            print("No theme.json file found. Using default colors.")
 
 def gitpakall(script_dir):
 
@@ -412,6 +385,54 @@ def data_write(value_name, value, script_dir):
     with open(config_file_path, 'w') as file:
         json.dump(config, file, indent=4)
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+class Colours:
+    if data_read("theme", script_dir) is None or data_read("theme", script_dir) == "default":
+        RESET = "\033[0m"
+        BOLD = "\033[1m"
+        UNDERLINE = "\033[4m"
+        RED = "\033[91m"
+        GREEN = "\033[92m"
+        YELLOW = "\033[93m"
+        BLUE = "\033[94m"
+        MAGENTA = "\033[95m"
+        CYAN = "\033[96m"
+        WHITE = "\033[97m"
+    elif data_read("theme", script_dir) == "dark":
+        RESET = "\033[0m"
+        BOLD = "\033[1m"
+        UNDERLINE = "\033[4m"
+        RED = "\033[31m"
+        GREEN = "\033[32m"
+        YELLOW = "\033[33m"
+        BLUE = "\033[34m"
+        MAGENTA = "\033[35m"
+        CYAN = "\033[36m"
+        WHITE = "\033[37m"
+    elif data_read("theme", script_dir) == "neon":
+        RESET = "\033[0m"
+        BOLD = "\033[1m"
+        UNDERLINE = "\033[4m"
+        RED = "\033[91m"
+        GREEN = "\033[92m"
+        YELLOW = "\033[93m"
+        BLUE = "\033[94m"
+        MAGENTA = "\033[95m"
+        CYAN = "\033[96m"
+        WHITE = "\033[97m"
+    elif data_read("theme", script_dir) == "futuristic":
+        RESET = "\033[0m"
+        BOLD = "\033[1m"
+        UNDERLINE = "\033[4m"
+        RED = "\033[38;5;197m"
+        GREEN = "\033[38;5;40m"
+        YELLOW = "\033[38;5;226m"
+        BLUE = "\033[38;5;12m"
+        MAGENTA = "\033[38;5;201m"
+        CYAN = "\033[38;5;51m"
+        WHITE = "\033[38;5;255m"
+
+
 def settings(script_dir):
     while True:
         clear_screen()
@@ -425,6 +446,7 @@ def settings(script_dir):
         print("5. Run Automated Dependency Install")
         print("6. Run Automated PAK and Dependency Install")
         print("7. Update ALF-DOS")
+        print("8. Choose Theme")
         print("0. Exit Settings")
         
         choice = input("Select an option: ").strip()
@@ -454,6 +476,21 @@ def settings(script_dir):
                 update(script_dir)
             else:
                 print("No updates available.")
+        elif choice == '8':
+            print("Choose a theme:")
+            print("1. Default")
+            print("2. Dark")
+            print("3. Neon")
+            print("4. Futuristic")
+            theme_choice = input("Select a theme: ").strip()
+            if theme_choice == '1':
+                data_write("theme", "default", script_dir)
+            elif theme_choice == '2':
+                data_write("theme", "dark", script_dir)
+            elif theme_choice == '3':
+                data_write("theme", "neon", script_dir)
+            elif theme_choice == '4':
+                data_write("theme", "futuristic", script_dir)
         else:
             print("Invalid option. Please try again.")
         
@@ -630,6 +667,7 @@ def main():
         data_write("first_run", False, script_dir)
         data_write("potential_issue", False, script_dir)
         data_write("debug_mode", False, script_dir)
+        data_write("theme", "default", script_dir)
         print("Preparing Setup...")
         print("Prepared Commands Folder")
         time.sleep(2)
@@ -867,11 +905,6 @@ def main():
             update_changelog(script_dir)
             input("Press Enter to continue...")
             continue
-        elif command_name.lower() == 'theme-refresh':
-            Colours.load_theme()
-            print("Theme refreshed.")
-            input("Press Enter to continue...")
-            continue
         elif command_name.lower() == 'pak-details':
             view_pak_details(input("Enter the name of the PAK to view details: ").strip(), script_dir)
             input("Press Enter to continue...")
@@ -916,7 +949,6 @@ def main():
         input("Command finished. Press Enter to continue...")
 
 if __name__ == "__main__":
-    Colours.load_theme()
     clear_screen()
     if sys.version_info.major < 3:
         print("This script requires Python 3 or higher.")
