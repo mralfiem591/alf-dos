@@ -79,6 +79,7 @@ The following commands are available in the ALF-DOS system:
 - **cmdpak-refresh**: Refresh all paks in the "Paks" directory. Useful for if you are not interested in an advanced install.
 - **cmdpak-dep**: Automatically download required dependencies for all Paks.
 - **cmdpak-grab**: Clones all Paks from your current cded directory into your installation.
+- **cmdpak-tree**: Shows you a dependency tree for all Paks.
 - **pak-rm**: Delete a Pak.
 - **gitpakget**: Download a GitHub Pak.
 - **gitpaklist**: List all GitHub paks.

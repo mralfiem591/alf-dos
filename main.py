@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.17.4"
+version = "0.18.0"
 build = "beta"
 count_lines = 0
 
@@ -177,7 +177,41 @@ def update(script_dir):
             print("Failed to list repository contents.")
     except Exception as e:
         print(f"An error occurred during the update: {e}")
-
+def pak_tree(script_dir):
+    # Locate the Paks directory
+    paks_dir = os.path.join(script_dir, "Paks")
+    
+    # Check if the Paks directory exists
+    if not os.path.exists(paks_dir):
+        print("Paks directory not found.")
+        return
+    
+    # Build the dependency tree
+    dependency_tree = {}
+    
+    for pak_file in os.listdir(paks_dir):
+        if pak_file.endswith(".json"):
+            pak_path = os.path.join(paks_dir, pak_file)
+            with open(pak_path, "r") as file:
+                try:
+                    pak_data = json.load(file)
+                    pak_name = pak_file[:-5]  # Remove .json extension
+                    dependencies = pak_data.get("dependencies", [])
+                    dependency_tree[pak_name] = dependencies
+                except json.JSONDecodeError:
+                    print(f"Error parsing {pak_file}")
+    
+    # Recursive function to print the tree
+    def print_tree(pak_name, indent=""):
+        print(f"{indent}- {pak_name}")
+        for dependency in dependency_tree.get(pak_name, []):
+            print_tree(dependency, indent + "  ")
+    
+    # Print the tree for all top-level Paks
+    print("Pak Dependency Tree:")
+    for pak_name in dependency_tree:
+        if not any(pak_name in dependencies for dependencies in dependency_tree.values()):
+            print_tree(pak_name)
 def count_lines(file_path):
     with open(file_path, 'r') as file:
         return sum(1 for line in file)
@@ -863,6 +897,10 @@ def main():
             continue
         elif command_name.lower() == '7':
             print("Are YOU lucky?")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'cmdpak-tree':
+            pak_tree(script_dir)
             input("Press Enter to continue...")
             continue
         elif command_name.lower() == 'github-repo':
