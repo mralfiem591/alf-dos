@@ -29,7 +29,7 @@ class Colours:
 
 def gitpakall(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
-    url = "https://api.github.com/repos/mralfiem591/alf-dos/contents/Paks"
+    url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
