@@ -89,44 +89,11 @@ The following commands are available in the ALF-DOS system:
 - **update-changelog**: Open update changelog. (v0.15.5+ only)
 - **reboot**: Reboots ALF-DOS.
 - **setup**: Open setup.
-- **theme-refresh**: Refresh theme.json (More details soon)
 - **pak-details**: Find details on GitHub for a Pak
 - **pak-search**: Search for a Pak on GitHub
 Other commands can be downloaded from CMDPAKs.
 
 Each command can be executed by invoking its name in the ALF-DOS interface.
-
-## Custom Themes
-
-ALF-DOS supports custom themes. To do this, create a themes.json file in your ALF-DOS directory and put the theme data in it using ANSI escape codes. for example:
-
-```bash
-{
-    "RESET": "\033[0m",
-    "BOLD": "\033[1m",
-    "UNDERLINE": "\033[4m",
-    "RED": "\033[91m",
-    "GREEN": "\033[92m",
-    "YELLOW": "\033[93m",
-    "BLUE": "\033[94m",
-    "MAGENTA": "\033[95m",
-    "CYAN": "\033[96m",
-    "WHITE": "\033[97m",
-    "BACKGROUND_RED": "\033[41m",
-    "BACKGROUND_GREEN": "\033[42m",
-    "BACKGROUND_YELLOW": "\033[43m",
-    "BACKGROUND_BLUE": "\033[44m",
-    "BACKGROUND_MAGENTA": "\033[45m",
-    "BACKGROUND_CYAN": "\033[46m",
-    "BACKGROUND_WHITE": "\033[47m"
-}
-```
-
-This will be loaded at startup and when you run
-
-```bash
-theme-refresh
-```
 
 ## Adding New Commands
 
