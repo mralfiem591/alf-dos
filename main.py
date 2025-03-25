@@ -150,7 +150,7 @@ def update(script_dir):
     headers = {
         "Authorization": f"Bearer {GITHUB_KEY}"
     }
-    exclude_files = ["key.env", "config.json"]
+    exclude_files = ["key.env", "config.json", "version.txt"]
     exclude_dirs = ["Commands", "Paks"]
 
     try:
