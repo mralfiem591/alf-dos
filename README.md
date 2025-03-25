@@ -69,6 +69,7 @@ To set up and run the ALF-DOS system, follow these steps:
    ```
 
 ## Auto-Update + Pak Installer
+
    **Note: when updating to 0.16.0-alpha, you must make a new token.**
    To use the auto-updater, you must have a key.env setup. To do this, make a new file called
 
