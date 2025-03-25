@@ -137,11 +137,11 @@ def search_paks(keyword):
 def update(script_dir):
     GITHUB_KEY = os.getenv("GITHUB_PAT")
     repo_url = "https://api.github.com/repos/mralfiem591/alf-dos/contents"
-    exclude_files = ["key.env", "config.json", "version.txt"]
+    exclude_files = ["key.env", "config.json", "version.txt", "theme.json", "template.json"]
     exclude_dirs = ["Commands", "Paks"]
 
     try:
-        response = requests.get(repo_url, headers=headers)
+        response = requests.get(repo_url)
         if response.status_code == 200:
             files = response.json()
             for file in files:
