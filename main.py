@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.1"
+version = "0.18.2"
 build = "beta"
 count_lines = 0
 
@@ -115,7 +115,6 @@ def view_pak_details(pak_name):
         print(f"An error occurred while fetching PAK details: {e}")
 
 def search_paks(keyword):
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
 
     try:
@@ -135,7 +134,6 @@ def search_paks(keyword):
         print(f"An error occurred while searching for PAKs: {e}")
 
 def update(script_dir):
-    GITHUB_KEY = os.getenv("GITHUB_PAT")
     repo_url = "https://api.github.com/repos/mralfiem591/alf-dos/contents"
     exclude_files = ["key.env", "config.json", "version.txt", "theme.json", "template.json"]
     exclude_dirs = ["Commands", "Paks"]
@@ -227,8 +225,6 @@ def update_changelog(script_dir):
     changelog_path = os.path.join(script_dir, "changelog.txt")
     try:
         with open(changelog_path, 'r', encoding='utf-8') as file:
-            print(f"Changelog for ALF-DOS v{version}-{build}:")
-            print("")
             print(file.read())
     except FileNotFoundError:
         print("changelog.txt file not found.")
