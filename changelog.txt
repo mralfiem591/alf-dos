@@ -1,9 +1,6 @@
 Current Update:
-  Improved readme clarity
+  Fixed Pak installer failing
+  Other fixes
 
 Previous Update:
-  Improved changelog print layout
-  Fixed changelog being unopenable
-  Made changelog auto-open after update
-  General fixes
-  Speed upgrades
+  Improved readme clarity
