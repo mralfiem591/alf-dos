@@ -921,4 +921,8 @@ def main():
 
 if __name__ == "__main__":
     Colours.load_theme()
+    clear_screen()
+    if sys.version_info.major < 3:
+        print("This script requires Python 3 or higher.")
+        sys.exit(1)
     main()
