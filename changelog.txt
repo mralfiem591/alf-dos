@@ -1,6 +1,8 @@
 Current Update:
-  Fixed Pak installer failing
-  Other fixes
+  Added themes
+  Added pak search
+  Added pak details
 
 Previous Update:
-  Improved readme clarity
+  Fixed Pak installer failing
+  Other fixes
