@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.17.0"
+version = "0.17.1"
 build = "beta"
 count_lines = 0
 
@@ -76,23 +76,24 @@ def gitpakall(script_dir):
 
 def check_updates(current_version, system):
     url = "https://raw.githubusercontent.com/mralfiem591/alf-dos/main/version.txt"
+    try:
         response = requests.get(url)
         if response.status_code == 200:
-            latest_version = response.text.strip()
-            if packaging_version.parse(latest_version) > packaging_version.parse(current_version):
-                if not system:
-                    return f"ALF-DOS v{latest_version} is available. Run 'update' to update."
+                latest_version = response.text.strip()
+                if packaging_version.parse(latest_version) > packaging_version.parse(current_version):
+                    if not system:
+                        return f"ALF-DOS v{latest_version} is available. Run 'update' to update."
+                    else:
+                        return True
                 else:
-                    return True
-            else:
-                if not system:
-                    return "ALF-DOS is up to date."
-                else:
-                    return False
+                    if not system:
+                        return "ALF-DOS is up to date."
+                    else:
+                        return False
         else:
             return "Failed to check for updates."
     except Exception as e:
-        return f"An error occurred finding updates: {e}"
+         return f"An error occurred finding updates: {e}"
     
 def view_pak_details(pak_name):
     url = f"https://raw.githubusercontent.com/mralfiem591/alf-dos-paks/main/{pak_name}.json"
@@ -695,7 +696,6 @@ def main():
         if data_read("potential_issue", script_dir) is not None and data_read("potential_issue", script_dir):
             print(f"{Colours.RED}{Colours.BOLD}{Colours.UNDERLINE}WARNING: POTENTIAL ISSUE DETECTED. ALF-DOS may not function. Please run 'reboot' to automatically boot into repair mode. If the issue stays after repair, please run setup {Colours.BOLD}{Colours.UNDERLINE}IMMEDIATELY..{Colours.RESET}")
         print(f"{Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET} Command Line Interface v{version}")
-        load_dotenv(dotenv_path=os.path.join(script_dir, 'key.env'))
         print(check_updates(version, False))
         print("Build: " + build)
         print("""Type 'help' help finding commands, 'exit' to exit, or a command to execute.
