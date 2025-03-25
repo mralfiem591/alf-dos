@@ -33,16 +33,23 @@ To set up and run the ALF-DOS system, follow these steps:
 **PLEASE NOTE: Only cd and cmdpak are available right after install. Other commands must be downloaded via CMDPAK. Also note that the dependencies of a PAK may be wrong. Please check the PAK file, as it contains all the commands.**
 
 1. **Download**:
-   Download ALF-DOS-installer to your main system.
+   Download ALF-DOS-installer.portable.py to your main system.
 
-2. **Run the Installer**
+2. **Run the Installer**:
    Execute the main installer:
 
    ```bash
    python ALF-DOS-installer
    ```
 
-3. **Install Dependencies**:
+3. **CD into main directory**:
+   CD into main directory:
+
+   ```bash
+   cd ALF-DOS
+   ```
+
+4. **Install Dependencies**:
    If there are any dependencies required for the main project, install them using:
 
    ```bash
@@ -51,7 +58,7 @@ To set up and run the ALF-DOS system, follow these steps:
 
    Please note some Paks may have dependencies. You will be notified at Pak install.
 
-4. **Run the System**:
+5. **Run the System**:
    Execute the main program:
 
    ```bash
@@ -62,7 +69,8 @@ To set up and run the ALF-DOS system, follow these steps:
 
    ```bash
    ALF-DOS Command Line Interface v{Version}
-   Type 'help' help finding commands, 'exit' to exit, or a command to execute.
+   **ALF-DOS is up to date.**
+   Type 'help' for help finding commands, 'exit' to exit, or a command to execute.
 
    $ {Your ALF-DOS Directory} >
    ```
@@ -72,7 +80,7 @@ To set up and run the ALF-DOS system, follow these steps:
 The following commands are available in the ALF-DOS system:
 
 - **cd**: Lets you open a directory to run commands from. Usage: cd {dir}
-- **readme**: Open this file
+- **readme**: Open this file.
 - **cmdpak-read**: Lets you download a CMDPAK. Usage: cmdpak-read {cmdpak JSON}
 - **cmdpak-one**: Same as cmdpak-read but for 1 command only.
 - **cmdpak-all**: Download all paks in one directory.
@@ -90,7 +98,7 @@ The following commands are available in the ALF-DOS system:
 - **reboot**: Reboots ALF-DOS.
 - **setup**: Open setup.
 - **pak-details**: Find details on GitHub for a Pak
-- **pak-search**: Search for a Pak on GitHub
+- **pak-search**: Search for a Pak on GitHub.
 Other commands can be downloaded from CMDPAKs.
 
 Each command can be executed by invoking its name in the ALF-DOS interface.
