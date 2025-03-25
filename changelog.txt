@@ -1,8 +1,8 @@
 Current Update:
+  Removed token requirement
+  Added auto-installer
+
+Previous Update:
   Added themes
   Added pak search
   Added pak details
-
-Previous Update:
-  Fixed Pak installer failing
-  Other fixes
