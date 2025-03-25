@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.17.1"
+version = "0.17.2"
 build = "beta"
 count_lines = 0
 
@@ -82,12 +82,17 @@ def check_updates(current_version, system):
                 latest_version = response.text.strip()
                 if packaging_version.parse(latest_version) > packaging_version.parse(current_version):
                     if not system:
-                        return f"ALF-DOS v{latest_version} is available. Run 'update' to update."
+                        return f"{Colours.BOLD}{Colours.YELLOW}ALF-DOS v{latest_version} is available. Run 'update' to update.{Colours.RESET}"
                     else:
                         return True
+                elif packaging_version.parse(latest_version) < packaging_version.parse(current_version):
+                    if not system:
+                        return f"{Colours.BOLD}ALF-DOS v{current_version} is {Colours.RED}past{Colours.RESET}{Colours.BOLD} the latest version. {Colours.UNDERLINE}This is a development build.{Colours.RESET}"
+                    else:
+                        return False
                 else:
                     if not system:
-                        return "ALF-DOS is up to date."
+                        return f"{Colours.BOLD}{Colours.GREEN}ALF-DOS is up to date.{Colours.RESET}"
                     else:
                         return False
         else:

@@ -1,9 +1,9 @@
 Current Update: (25/03/2025)
+  Added colours to update indicator
+  Added dev version detector
+  Other fixes
+
+Previous Update: (25/03/2025)
   ENTERED BETA!!!
   Removed token requirement
   Added auto-installer
-
-Previous Update: (24/03/2025)
-  Added themes
-  Added pak search
-  Added pak details
