@@ -3,5 +3,6 @@
     "reboot_needed": false,
     "first_run": true,
     "potential_issue": false,
-    "debug_mode": false
+    "debug_mode": false,
+    "theme": "default"
 }
