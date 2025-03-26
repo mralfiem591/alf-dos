@@ -108,7 +108,7 @@ def search_paks(keyword):
 
 def update(script_dir):
     repo_url = "https://api.github.com/repos/mralfiem591/alf-dos/contents"
-    exclude_files = ["key.env", "config.json", "version.txt", "theme.json", "template.json"]
+    exclude_files = ["key.env", "config.json", "version.txt", "template.json", ".gitignore"]
     exclude_dirs = ["Commands", "Paks"]
 
     try:
