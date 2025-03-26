@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.4"
+version = "0.18.5"
 build = "beta"
 count_lines = 0
 
