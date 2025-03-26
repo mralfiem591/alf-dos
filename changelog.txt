@@ -1,4 +1,4 @@
-Changelog for ALF-DOS v0.18.2-beta:
+Changelog for ALF-DOS v0.18.4-beta:
 
 Current Update:
   Added cmdpak-tree
