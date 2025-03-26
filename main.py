@@ -496,63 +496,6 @@ def settings(script_dir):
         
         input("Press Enter to continue...")
 
-def initialize_config(script_dir):
-    config_file_path = os.path.join(script_dir, "config.json")
-    if not os.path.exists(config_file_path):
-        return "Not Found"
-    else:
-        try:
-            with open(config_file_path, 'r') as file:
-                config = json.load(file)
-                if "corrupted_json" not in config:
-                    config["corrupted_json"] = False
-                if "reboot_needed" not in config:
-                    config["reboot_needed"] = False
-                if "first_run" not in config:
-                    config["first_run"] = True
-                with open(config_file_path, 'w') as file:
-                    json.dump(config, file, indent=4)
-            print("Checked and updated config.json")
-        except json.JSONDecodeError:
-            print("Corrupted config.json detected.")
-            return "Corrupted"
-    return "Not Corrupted"
-
-def corrupted_fix(script_dir):
-    if data_read("debug_mode", script_dir) is not True:
-        if input("WARNING: CORRUPTED FILES DETECTED. ALF-DOS may not function. Would you like to run the automated repair? (Heavily recommended) (y/n) ") == "y":
-            print("Running automated repair...")
-            if not os.path.exists(os.path.join(script_dir, "Paks")):
-                print("PAKS BAD")
-                os.makedirs("Paks", exist_ok=True)
-            else:
-                print("PAKS OK")
-            if not os.path.exists(os.path.join(script_dir, "Commands")):
-                print("COMMANDS BAD")
-                os.makedirs("Commands", exist_ok=True)
-            else:
-                print("COMMANDS OK")
-            if not os.path.exists(os.path.join(script_dir, "config.json")):
-                print("JSON BAD")
-                default_config = {
-                    "corrupted_json": False,
-                    "reboot_needed": False,
-                    "first_run": False,
-                    "potential_issue": False,
-                    "debug_mode": False 
-                }   
-                with open(os.path.join(script_dir, "config.json"), 'w') as file:
-                    json.dump(default_config, file, indent=4)
-                print("Created default config.json")
-            cmdpak_refresh(script_dir)
-            cmdpak_dep(script_dir)
-            data_write("potential_issue", False, script_dir)
-            print("Repair complete!")
-            print("Please reboot.")
-    else:
-        print("Normally repair would be run, but debug mode is enabled. Please run 'setup' to disable debug mode.")
-        input("Press Enter to continue...")
-
 def gitpaklist():
 
     # URL for the root directory of the repository
@@ -637,23 +580,9 @@ def main():
     os.chdir(script_dir)
     data_write("reboot_needed", False, script_dir)
     if data_read("debug_mode", script_dir) is not True:
-        if data_read("first_run", script_dir) is False or data_read("first_run", script_dir) is None:
-            # Initialize config.json if it does not exist
-            config_status = initialize_config(script_dir)
-            
-            if config_status == "Corrupted":
-                corrupted_fix(script_dir)
-                return  # Exit the main function after running the fix
-            
-            if config_status == "Not Found":
-                corrupted_fix(script_dir)
-                return  # Exit the main function if config.json is not found
-            if not os.path.exists(os.path.join(script_dir, "Paks")) or not os.path.exists(os.path.join(script_dir, "Commands")):
-                corrupted_fix(script_dir)
-                return
             if data_read("potential_issue", script_dir) is not None and data_read("potential_issue", script_dir):
-                corrupted_fix(script_dir)
-                return
+                print("There was a problem loading ALF-DOS: Your config.json may be corrupt. It is HEAVILY reccomended to get the reapir utility from GitHub. ALF-DOS will now close.")
+                exit()
     clear_screen()
     print(f"WELCOME TO {Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET}")
     time.sleep(1)
