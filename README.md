@@ -116,3 +116,4 @@ To add a new command, create a new JSON file in the `Commands` folder with the f
 ```
 
 Make sure to replace `new_command`, the description, and the code with your desired values.
+Also make sure you don't actually take new lines, instead replace them with `\n`.
