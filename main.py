@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.9"
+version = "0.18.10"
 build = "beta"
 count_lines = 0
 
@@ -432,6 +432,37 @@ class Colours:
             Colours.MAGENTA = "\033[38;5;201m"
             Colours.CYAN = "\033[38;5;51m"
             Colours.WHITE = "\033[38;5;255m"
+        if theme == "protanopia":
+            # Protanopia-friendly colors
+            Colours.RED = "\033[38;5;208m"  # Orange
+            Colours.GREEN = "\033[38;5;220m"  # Yellow
+            Colours.BLUE = "\033[38;5;33m"  # Blue
+            Colours.MAGENTA = "\033[38;5;201m"  # Pink
+            Colours.CYAN = "\033[38;5;51m"  # Cyan
+            Colours.WHITE = "\033[38;5;15m"  # White
+        elif theme == "deuteranopia":
+            # Deuteranopia-friendly colors
+            Colours.RED = "\033[38;5;208m"  # Orange
+            Colours.GREEN = "\033[38;5;220m"  # Yellow
+            Colours.BLUE = "\033[38;5;33m"  # Blue
+            Colours.MAGENTA = "\033[38;5;201m"  # Pink
+            Colours.CYAN = "\033[38;5;51m"  # Cyan
+            Colours.WHITE = "\033[38;5;15m"  # White
+        elif theme == "tritanopia":
+            # Tritanopia-friendly colors
+            Colours.RED = "\033[38;5;196m"  # Bright red
+            Colours.GREEN = "\033[38;5;46m"  # Bright green
+            Colours.MAGENTA = "\033[38;5;201m"  # Pink
+            Colours.CYAN = "\033[38;5;87m"  # Soft cyan
+            Colours.WHITE = "\033[38;5;15m"  # White
+        elif theme == "achromatopsia":
+            # Achromatopsia-friendly colors (grayscale)
+            Colours.RED = "\033[1;30m"  # Bold gray
+            Colours.GREEN = "\033[1;37m"  # Bright white
+            Colours.BLUE = "\033[1;90m"  # Dim gray
+            Colours.MAGENTA = "\033[1;37m"  # Bright white
+            Colours.CYAN = "\033[1;90m"  # Dim gray
+            Colours.WHITE = "\033[1;37m"  # Bright white
         else:
             # Default to "default" theme if the theme is invalid
             Colours.initialize("default")
@@ -481,10 +512,16 @@ def settings(script_dir):
                 print("No updates available.")
         elif choice == '8':
             print("Choose a theme:")
+            print("Normal themes:")
             print("1. Default")
             print("2. Dark")
             print("3. Neon")
             print("4. Futuristic")
+            print("Colourblind themes:")
+            print("5. Protanopia")
+            print("6. Deuteranopia")
+            print("7. Tritanopia")
+            print("8. Achromatopsia")
             theme_choice = input("Select a theme: ").strip()
             if theme_choice == '1':
                 data_write("theme", "default", script_dir)
@@ -494,6 +531,14 @@ def settings(script_dir):
                 data_write("theme", "neon", script_dir)
             elif theme_choice == '4':
                 data_write("theme", "futuristic", script_dir)
+            elif theme_choice == '5':
+                data_write("theme", "protanopia", script_dir)
+            elif theme_choice == '6':
+                data_write("theme", "deuteranopia", script_dir)
+            elif theme_choice == '7':
+                data_write("theme", "tritanopia", script_dir)
+            elif theme_choice == '8':
+                data_write("theme", "achromatopsia", script_dir)
             # Reinitialize Colours after theme change
             theme = data_read("theme", script_dir)
             Colours.initialize(theme)
