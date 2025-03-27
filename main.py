@@ -957,6 +957,30 @@ def main():
             print("https://github.com/mralfiem591/alf-dos")
             print("https://github.com/mralfiem591/alf-dos-paks")
             input("Press Enter to continue...")
+        elif command_name.lower() == 'hidden-treasure':
+            print("Congratulations! You've found the hidden treasure! 🏆")
+            print("Here's a secret message: 'Keep exploring, the best is yet to come!' ✨")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'secret-code':
+            print("You've unlocked the secret code! 🔓")
+            print("The code is: 8675309. Use it wisely!")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'easter-egg':
+            print("🥚 You've cracked the Easter Egg! 🥚")
+            print("Did you know? The term 'Easter Egg' in software was popularized by the 1980 video game Adventure.")
+            input("Press Enter to continue...")
+            continue
+        elif command_name.lower() == 'unlock-secret':
+            secret_code = input("Enter the secret code: ").strip()
+            if secret_code == '8675309':
+                print("🎉 You've unlocked the secret feature! 🎉")
+                print("Here's a fun fact: The song '867-5309/Jenny' by Tommy Tutone made this number famous!")
+            else:
+                print("❌ Incorrect code. Try again!")
+            input("Press Enter to continue...")
+            continue
         try:
             command = load_command(command_name, script_dir)
             if command:

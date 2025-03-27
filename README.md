@@ -99,6 +99,7 @@ The following commands are available in the ALF-DOS system:
 - **setup**: Open setup.
 - **pak-details**: Find details on GitHub for a Pak
 - **pak-search**: Search for a Pak on GitHub.
+- **settings**: Open settings menu. Useful for colour-blindness.
 Other commands can be downloaded from CMDPAKs.
 
 Each command can be executed by invoking its name in the ALF-DOS interface.
