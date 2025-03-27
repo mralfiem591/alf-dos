@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.7"
+version = "0.18.8"
 build = "beta"
 count_lines = 0
 
@@ -387,51 +387,54 @@ def data_write(value_name, value, script_dir):
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 class Colours:
-    if data_read("theme", script_dir) is None or data_read("theme", script_dir) == "default":
-        RESET = "\033[0m"
-        BOLD = "\033[1m"
-        UNDERLINE = "\033[4m"
-        RED = "\033[91m"
-        GREEN = "\033[92m"
-        YELLOW = "\033[93m"
-        BLUE = "\033[94m"
-        MAGENTA = "\033[95m"
-        CYAN = "\033[96m"
-        WHITE = "\033[97m"
-    elif data_read("theme", script_dir) == "dark":
-        RESET = "\033[0m"
-        BOLD = "\033[1m"
-        UNDERLINE = "\033[4m"
-        RED = "\033[31m"
-        GREEN = "\033[32m"
-        YELLOW = "\033[33m"
-        BLUE = "\033[34m"
-        MAGENTA = "\033[35m"
-        CYAN = "\033[36m"
-        WHITE = "\033[37m"
-    elif data_read("theme", script_dir) == "neon":
-        RESET = "\033[0m"
-        BOLD = "\033[1m"
-        UNDERLINE = "\033[4m"
-        RED = "\033[91m"
-        GREEN = "\033[92m"
-        YELLOW = "\033[93m"
-        BLUE = "\033[94m"
-        MAGENTA = "\033[95m"
-        CYAN = "\033[96m"
-        WHITE = "\033[97m"
-    elif data_read("theme", script_dir) == "futuristic":
-        RESET = "\033[0m"
-        BOLD = "\033[1m"
-        UNDERLINE = "\033[4m"
-        RED = "\033[38;5;197m"
-        GREEN = "\033[38;5;40m"
-        YELLOW = "\033[38;5;226m"
-        BLUE = "\033[38;5;12m"
-        MAGENTA = "\033[38;5;201m"
-        CYAN = "\033[38;5;51m"
-        WHITE = "\033[38;5;255m"
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+    RED = ""
+    GREEN = ""
+    YELLOW = ""
+    BLUE = ""
+    MAGENTA = ""
+    CYAN = ""
+    WHITE = ""
 
+    @staticmethod
+    def initialize(theme):
+        if theme == "default":
+            Colours.RED = "\033[91m"
+            Colours.GREEN = "\033[92m"
+            Colours.YELLOW = "\033[93m"
+            Colours.BLUE = "\033[94m"
+            Colours.MAGENTA = "\033[95m"
+            Colours.CYAN = "\033[96m"
+            Colours.WHITE = "\033[97m"
+        elif theme == "dark":
+            Colours.RED = "\033[31m"
+            Colours.GREEN = "\033[32m"
+            Colours.YELLOW = "\033[33m"
+            Colours.BLUE = "\033[34m"
+            Colours.MAGENTA = "\033[35m"
+            Colours.CYAN = "\033[36m"
+            Colours.WHITE = "\033[37m"
+        elif theme == "neon":
+            Colours.RED = "\033[91m"
+            Colours.GREEN = "\033[92m"
+            Colours.YELLOW = "\033[93m"
+            Colours.BLUE = "\033[94m"
+            Colours.MAGENTA = "\033[95m"
+            Colours.CYAN = "\033[96m"
+            Colours.WHITE = "\033[97m"
+        elif theme == "futuristic":
+            Colours.RED = "\033[38;5;197m"
+            Colours.GREEN = "\033[38;5;40m"
+            Colours.YELLOW = "\033[38;5;226m"
+            Colours.BLUE = "\033[38;5;12m"
+            Colours.MAGENTA = "\033[38;5;201m"
+            Colours.CYAN = "\033[38;5;51m"
+            Colours.WHITE = "\033[38;5;255m"
+        else:
+            # Default to "default" theme if the theme is invalid
+            Colours.initialize("default")
 
 def settings(script_dir):
     while True:
