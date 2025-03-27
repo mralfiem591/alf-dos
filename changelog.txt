@@ -1,9 +1,9 @@
-Changelog for ALF-DOS v0.18.12-beta:
+Changelog for ALF-DOS v0.18.13-beta:
 
 Current Update:
+  Added tests for improved bug fixing
+  Other fixes
+
+Previous Update:
   Added colourblind-friendliness
   Other fixes
-  
-Previous Update:
-  Added cmdpak-tree
-  General fixes

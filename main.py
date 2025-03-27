@@ -10,20 +10,20 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.12"
+version = "0.18.13"
 build = "beta"
 count_lines = 0
 
 def gitpakall(script_dir):
-
     # URL for the root directory of the repository
     url = "https://api.github.com/repos/mralfiem591/alf-dos-paks/contents"
 
     try:
         response = requests.get(url)
-        if response.status_code == 200:
+        if (response.status_code == 200):
             paks = response.json()
-            pak_names = [pak['name'] for pak in paks if pak['name'].endswith('PAK.json')]
+            # Adjusted to check for files ending with 'pak.json' (case-insensitive)
+            pak_names = [pak['name'] for pak in paks if pak['name'].lower().endswith('pak.json')]
             if pak_names:
                 print("Downloading available PAKs:")
                 for pak_name in pak_names:
@@ -285,6 +285,10 @@ def read_cmdpak_one(file_path, script_dir):
             print(f"Command '{selected_command_name}' not found in the CMDPAK.")
 
 def read_all_cmdpaks(directory, script_dir):
+    # Ensure the Commands directory exists
+    commands_dir = os.path.join(script_dir, "Commands")
+    os.makedirs(commands_dir, exist_ok=True)  # Create the Commands directory if it doesn't exist
+
     # Read all cmdpak files in the specified directory and create individual command JSON files
     for filename in os.listdir(directory):
         if filename.endswith(".json"):
