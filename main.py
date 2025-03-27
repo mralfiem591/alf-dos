@@ -432,40 +432,50 @@ class Colours:
             Colours.MAGENTA = "\033[38;5;201m"
             Colours.CYAN = "\033[38;5;51m"
             Colours.WHITE = "\033[38;5;255m"
-        if theme == "protanopia":
-            # Protanopia-friendly colors
+        elif theme == "protanopia":
             Colours.RED = "\033[38;5;208m"  # Orange
             Colours.GREEN = "\033[38;5;220m"  # Yellow
+            Colours.YELLOW = "\033[38;5;220m"  # Same as GREEN
             Colours.BLUE = "\033[38;5;33m"  # Blue
             Colours.MAGENTA = "\033[38;5;201m"  # Pink
             Colours.CYAN = "\033[38;5;51m"  # Cyan
             Colours.WHITE = "\033[38;5;15m"  # White
         elif theme == "deuteranopia":
-            # Deuteranopia-friendly colors
             Colours.RED = "\033[38;5;208m"  # Orange
             Colours.GREEN = "\033[38;5;220m"  # Yellow
+            Colours.YELLOW = "\033[38;5;220m"  # Same as GREEN
             Colours.BLUE = "\033[38;5;33m"  # Blue
             Colours.MAGENTA = "\033[38;5;201m"  # Pink
             Colours.CYAN = "\033[38;5;51m"  # Cyan
             Colours.WHITE = "\033[38;5;15m"  # White
         elif theme == "tritanopia":
-            # Tritanopia-friendly colors
             Colours.RED = "\033[38;5;196m"  # Bright red
             Colours.GREEN = "\033[38;5;46m"  # Bright green
+            Colours.YELLOW = "\033[38;5;226m"  # Bright yellow
+            Colours.BLUE = "\033[38;5;33m"  # Blue
             Colours.MAGENTA = "\033[38;5;201m"  # Pink
             Colours.CYAN = "\033[38;5;87m"  # Soft cyan
             Colours.WHITE = "\033[38;5;15m"  # White
         elif theme == "achromatopsia":
-            # Achromatopsia-friendly colors (grayscale)
             Colours.RED = "\033[1;30m"  # Bold gray
             Colours.GREEN = "\033[1;37m"  # Bright white
+            Colours.YELLOW = "\033[1;37m"  # Same as GREEN
             Colours.BLUE = "\033[1;90m"  # Dim gray
-            Colours.MAGENTA = "\033[1;37m"  # Bright white
+            Colours.MAGENTA = "\033[1;37m"  # Same as GREEN
             Colours.CYAN = "\033[1;90m"  # Dim gray
             Colours.WHITE = "\033[1;37m"  # Bright white
         else:
             # Default to "default" theme if the theme is invalid
             Colours.initialize("default")
+
+        # Print all colors to demonstrate the theme
+        print(f"{Colours.RED}Red{Colours.RESET}")
+        print(f"{Colours.GREEN}Green{Colours.RESET}")
+        print(f"{Colours.YELLOW}Yellow{Colours.RESET}")
+        print(f"{Colours.BLUE}Blue{Colours.RESET}")
+        print(f"{Colours.MAGENTA}Magenta{Colours.RESET}")
+        print(f"{Colours.CYAN}Cyan{Colours.RESET}")
+        print(f"{Colours.WHITE}White{Colours.RESET}")
 
 def settings(script_dir):
     while True:
@@ -542,14 +552,6 @@ def settings(script_dir):
             # Reinitialize Colours after theme change
             theme = data_read("theme", script_dir)
             Colours.initialize(theme)
-             # Print all colors to demonstrate the theme
-            print(f"{Colours.RED}Red{Colours.RESET}")
-            print(f"{Colours.GREEN}Green{Colours.RESET}")
-            print(f"{Colours.YELLOW}Yellow{Colours.RESET}")
-            print(f"{Colours.BLUE}Blue{Colours.RESET}")
-            print(f"{Colours.MAGENTA}Magenta{Colours.RESET}")
-            print(f"{Colours.CYAN}Cyan{Colours.RESET}")
-            print(f"{Colours.WHITE}White{Colours.RESET}")
         else:
             print("Invalid option. Please try again.")
         
