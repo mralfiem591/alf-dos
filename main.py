@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.10"
+version = "0.18.11"
 build = "beta"
 count_lines = 0
 
@@ -542,6 +542,14 @@ def settings(script_dir):
             # Reinitialize Colours after theme change
             theme = data_read("theme", script_dir)
             Colours.initialize(theme)
+             # Print all colors to demonstrate the theme
+            print(f"{Colours.RED}Red{Colours.RESET}")
+            print(f"{Colours.GREEN}Green{Colours.RESET}")
+            print(f"{Colours.YELLOW}Yellow{Colours.RESET}")
+            print(f"{Colours.BLUE}Blue{Colours.RESET}")
+            print(f"{Colours.MAGENTA}Magenta{Colours.RESET}")
+            print(f"{Colours.CYAN}Cyan{Colours.RESET}")
+            print(f"{Colours.WHITE}White{Colours.RESET}")
         else:
             print("Invalid option. Please try again.")
         
