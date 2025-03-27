@@ -454,6 +454,27 @@ def settings(script_dir):
                 update(script_dir)
             else:
                 print("No updates available.")
+<<<<<<< Updated upstream
+=======
+        elif choice == '8':
+            print("Choose a theme:")
+            print("1. Default")
+            print("2. Dark")
+            print("3. Neon")
+            print("4. Futuristic")
+            theme_choice = input("Select a theme: ").strip()
+            if theme_choice == '1':
+                data_write("theme", "default", script_dir)
+            elif theme_choice == '2':
+                data_write("theme", "dark", script_dir)
+            elif theme_choice == '3':
+                data_write("theme", "neon", script_dir)
+            elif theme_choice == '4':
+                data_write("theme", "futuristic", script_dir)
+            # Reinitialize Colours after theme change
+            global Colours
+            Colours = type('Colours', (), Colours.__dict__)  # Dynamically recreate the Colours class
+>>>>>>> Stashed changes
         else:
             print("Invalid option. Please try again.")
         
