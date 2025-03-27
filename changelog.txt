@@ -1,4 +1,4 @@
-Changelog for ALF-DOS v0.18.11-beta:
+Changelog for ALF-DOS v0.18.12-beta:
 
 Current Update:
   Added colourblind-friendliness

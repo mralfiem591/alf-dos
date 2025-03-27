@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.11"
+version = "0.18.12"
 build = "beta"
 count_lines = 0
 
@@ -637,10 +637,18 @@ def main():
     # Set the current working directory to the directory containing main.py
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
+    
+    # Load the last used theme
+    theme = data_read("theme", script_dir)
+    if theme:
+        Colours.initialize(theme)
+    else:
+        Colours.initialize("default")  # Fallback to default theme if not set
+
     data_write("reboot_needed", False, script_dir)
     if data_read("debug_mode", script_dir) is not True:
             if data_read("potential_issue", script_dir) is not None and data_read("potential_issue", script_dir):
-                print("There was a problem loading ALF-DOS: Your config.json may be corrupt. It is HEAVILY reccomended to get the reapir utility from GitHub. ALF-DOS will now close.")
+                print("There was a problem loading ALF-DOS: Your config.json may be corrupt. It is HEAVILY reccomended to get the repair utility from GitHub. ALF-DOS will now close.")
                 exit()
     clear_screen()
     print(f"WELCOME TO {Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET}")
