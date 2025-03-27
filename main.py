@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.8"
+version = "0.18.9"
 build = "beta"
 count_lines = 0
 
@@ -495,8 +495,8 @@ def settings(script_dir):
             elif theme_choice == '4':
                 data_write("theme", "futuristic", script_dir)
             # Reinitialize Colours after theme change
-            global Colours
-            Colours = type('Colours', (), Colours.__dict__)  # Dynamically recreate the Colours class
+            theme = data_read("theme", script_dir)
+            Colours.initialize(theme)
         else:
             print("Invalid option. Please try again.")
         
