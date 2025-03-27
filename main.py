@@ -464,6 +464,22 @@ class Colours:
             Colours.MAGENTA = "\033[1;37m"  # Same as GREEN
             Colours.CYAN = "\033[1;90m"  # Dim gray
             Colours.WHITE = "\033[1;37m"  # Bright white
+        elif theme == "pastel":
+            Colours.RED = "\033[38;5;210m"  # Soft pink
+            Colours.GREEN = "\033[38;5;151m"  # Soft green
+            Colours.YELLOW = "\033[38;5;229m"  # Soft yellow
+            Colours.BLUE = "\033[38;5;153m"  # Soft blue
+            Colours.MAGENTA = "\033[38;5;218m"  # Soft magenta
+            Colours.CYAN = "\033[38;5;159m"  # Soft cyan
+            Colours.WHITE = "\033[38;5;15m"  # White
+        elif theme == "vibrant":
+            Colours.RED = "\033[38;5;196m"  # Bright red
+            Colours.GREEN = "\033[38;5;46m"  # Bright green
+            Colours.YELLOW = "\033[38;5;226m"  # Bright yellow
+            Colours.BLUE = "\033[38;5;21m"  # Bright blue
+            Colours.MAGENTA = "\033[38;5;201m"  # Bright magenta
+            Colours.CYAN = "\033[38;5;51m"  # Bright cyan
+            Colours.WHITE = "\033[38;5;15m"  # White
         else:
             # Default to "default" theme if the theme is invalid
             Colours.initialize("default")
@@ -532,6 +548,9 @@ def settings(script_dir):
             print("6. Deuteranopia")
             print("7. Tritanopia")
             print("8. Achromatopsia")
+            print("Additional themes:")
+            print("9. Pastel")
+            print("10. Vibrant")
             theme_choice = input("Select a theme: ").strip()
             if theme_choice == '1':
                 data_write("theme", "default", script_dir)
@@ -549,6 +568,10 @@ def settings(script_dir):
                 data_write("theme", "tritanopia", script_dir)
             elif theme_choice == '8':
                 data_write("theme", "achromatopsia", script_dir)
+            elif theme_choice == '9':
+                data_write("theme", "pastel", script_dir)
+            elif theme_choice == '10':
+                data_write("theme", "vibrant", script_dir)
             # Reinitialize Colours after theme change
             theme = data_read("theme", script_dir)
             Colours.initialize(theme)
