@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.13"
+version = "0.18.14"
 build = "beta"
 count_lines = 0
 
@@ -218,7 +218,7 @@ def load_command(command_name, script_dir):
     return None
 
 def execute_command(command):
-    exec(command['code'])
+    exec(command['code'], globals())
 
 def display_requirements_and_dependencies(cmdpak):
     requirements = cmdpak.get("requirements", "None")
@@ -631,8 +631,8 @@ def gitpakget(script_dir):
 
 def pak_rm(script_dir):
     pak_name = input("Enter the name of the PAK to remove (without .json extension): ").strip()
-    if not pak_name.endswith("PAK.json"):
-        pak_name += "PAK.json"
+    if not pak_name.endswith(".json"):
+        pak_name += ".json"
     paks_dir = os.path.join(script_dir, "Paks")
     pak_path = os.path.join(paks_dir, pak_name)
     if os.path.exists(pak_path):
@@ -661,6 +661,9 @@ def cmdpak_grab(script_dir):
     print("All JSON files have been copied to the Paks folder.")
 
 def main():
+    if sys.version_info.major < 3:
+        print("This script requires Python 3 or higher.")
+        exit()
     update_availible = False
     clear_screen()
     # Set the current working directory to the directory containing main.py
@@ -679,6 +682,7 @@ def main():
             if data_read("potential_issue", script_dir) is not None and data_read("potential_issue", script_dir):
                 print("There was a problem loading ALF-DOS: Your config.json may be corrupt. It is HEAVILY reccomended to get the repair utility from GitHub. ALF-DOS will now close.")
                 exit()
+    print("ALF-DOS-DEBUG")
     clear_screen()
     print(f"WELCOME TO {Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET}")
     time.sleep(1)
@@ -999,7 +1003,4 @@ def main():
 
 if __name__ == "__main__":
     clear_screen()
-    if sys.version_info.major < 3:
-        print("This script requires Python 3 or higher.")
-        sys.exit(1)
     main()
