@@ -3,3 +3,5 @@
 test_main.py
 # Ignore the config file
 config.json
+/__pycache__
+*.json
