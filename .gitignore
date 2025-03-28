@@ -1,3 +1,4 @@
 # Ignore the .env file
 .env
 test_main.py
+config.json
