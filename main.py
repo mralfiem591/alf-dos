@@ -10,7 +10,7 @@ from packaging import version as packaging_version
 import random
 
 CONFIG_FILE = "config.json"
-version = "0.18.14"
+version = "0.18.15"
 build = "beta"
 count_lines = 0
 
@@ -660,6 +660,17 @@ def cmdpak_grab(script_dir):
             print(f"Copied {filename} to Paks folder.")
     print("All JSON files have been copied to the Paks folder.")
 
+def auto_update(script_dir):
+    # Check for updates at the start of the script
+    if check_updates(version, True):
+        user_input = input("Update available. Update? (y/n): ").strip().lower()
+        if user_input == 'y':
+            update(script_dir)
+            print("Update complete. Please restart the script.")
+            exit()
+        else:
+            print("Skipping update.")
+
 def main():
     if sys.version_info.major < 3:
         print("This script requires Python 3 or higher.")
@@ -684,6 +695,11 @@ def main():
                 exit()
     print("ALF-DOS-DEBUG")
     clear_screen()
+    if check_updates(version, True):
+        update_availible = True
+        auto_update(script_dir)
+    else:
+        print("No updates available.")
     print(f"WELCOME TO {Colours.RED}A{Colours.GREEN}L{Colours.YELLOW}F{Colours.BLUE}-{Colours.MAGENTA}D{Colours.CYAN}O{Colours.WHITE}S{Colours.RESET}")
     time.sleep(1)
     print("INITIALIZING...")
