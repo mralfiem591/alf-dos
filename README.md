@@ -68,12 +68,35 @@ To set up and run the ALF-DOS system, follow these steps:
    You will get an output like this if it worked:
 
    ```bash
-   ALF-DOS Command Line Interface v{Version}
+   ALF-DOS Command Line Interface v{version}-{build}
    **ALF-DOS is up to date.**
    Type 'help' for help finding commands, 'exit' to exit, or a command to execute.
 
-   $ {Your ALF-DOS Directory} >
+   $ {your ALF-DOS directory} >
    ```
+
+## Supported Versions
+
+* `✅` - Supported  
+* `❌` - Not Supported
+* `=↑` - Greater than or equal to
+* `=↓` - Lower than or equal to
+* `x` - Anything
+
+| Version | Build | Supported |
+|:--------|:-----:|:---------:|
+| 0.x.x   | beta  | ✅ |
+| 0.10.x=↑| alpha | ✅ |
+| 0.9.x=↓ | alpha | ❌ |
+
+**If your version is unsupported, please update ALF-DOS. Unsupported versions no longer get security updates.**
+You can check your version from the ALF-DOS home screen. It'll look something like this:
+```bash
+ALF-DOS Command Line Interface v0.10.2-alpha  # Example of a supported version
+```
+```bash
+ALF-DOS Command Line Interface v0.8.1-alpha  # Example of a unsupported version
+```
 
 ## Commands
 
