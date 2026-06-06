@@ -1,3 +1,15 @@
+> [!IMPORTANT]
+> **About the future of the ALF-DOS project**
+> 
+> ALF-DOS probably isn't gonna get many new updates any more.
+> I've started working on a new and improved version of it, from the ground-up. It's going well, but im not sure when it'll be ready for.
+> Please do not expect any new updates here, there won't be any. I have archived the repository for this reason.
+>
+> Thanks for letting me make this project :)
+> - mralfiem
+
+> *"ALF-DOS out."*
+
 # ALF-DOS Project
 
 ALF-DOS is a command execution system that allows users to run predefined commands through a simple interface. Each command is defined in a separate JSON file, making it easy to add or modify commands without changing the core system.
